@@ -153,9 +153,11 @@ out/
 # Data - Kaggle dataset
 data/*
 !data/embeddings.npz
+!data/complete_articles
 
 # Milvus
 milvus/*
 !milvus/insert_to_milvus.py
+!mivlus/standalone_embed.sh
 milvus/__pycache__/
 milvus/volumes/
