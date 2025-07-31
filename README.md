@@ -22,7 +22,7 @@ This project consists of two main components:
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:adelitoo/clothing-rag.git
 cd fashion-search-project
 ```
 
@@ -81,7 +81,7 @@ pip install -r requirements.txt
 
 **Insert Embeddings into Milvus:**
 ```bash
-python send_request.py --mode pipeline
+python send_request.py --mode pipeline --insert-db
 ```
 
 **Launch Streamlit App:**
