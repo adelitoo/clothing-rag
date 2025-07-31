@@ -1,9 +1,3 @@
------
-
-### Step 1: Copy the Full Content Below
-
-Click the "Copy" icon in the top-right corner of the code block to copy the entire markdown text.
-
 ```markdown
 # 🧵 Full-Stack Fashion Search
 
@@ -129,5 +123,3 @@ Finally, launch the Streamlit web application.
 
 You should now see the fashion search interface and be able to submit queries! ✨
 ````
-
------
