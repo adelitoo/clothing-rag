@@ -23,7 +23,7 @@ This project consists of two main components:
 
 ```bash
 git clone git@github.com:adelitoo/clothing-rag.git
-cd fashion-search-project
+cd clothing-rag
 ```
 
 ### 2. Backend Setup
@@ -126,7 +126,7 @@ fashion-search-project/
 1. **Query Processing**: User submits a fashion-related text query through the Streamlit frontend
 2. **LLM Enhancement**: Ollama's LLM refines and expands the query for better search results
 3. **Embedding Generation**: CLIP model generates embeddings for the enhanced query
-4. **Vector Search**: Milvus performs similarity search against stored image embeddings
+4. **Vector Search**: Milvus performs similarity search against stored text embeddings
 5. **Results Display**: Frontend displays visually similar fashion items
 
 ---
@@ -138,6 +138,7 @@ fashion-search-project/
 - **Milvus**: Vector database for similarity search
 - **Ollama**: Local LLM for query enhancement
 - **CLIP**: Vision-language model for embeddings
+- **BLIP**: Image labelling model
 - **Docker**: Containerization for Milvus
 
 ---
@@ -148,7 +149,7 @@ fashion-search-project/
 
 To add new fashion items to the database:
 1. Place images in the appropriate directory
-2. Run the embedding pipeline: `python frontend/send_request.py --mode pipeline`
+2. Run the embedding pipeline: `python frontend/send_request.py --mode pipeline --cleanup --caption --embed --insert-db`
 
 ### Customizing the LLM Model
 
