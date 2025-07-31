@@ -8,23 +8,23 @@ This is a FastAPI-based backend for fashion-related image and text search using 
 
 You have **two ways** to run the backend:
 
-### ✅ Recommended: Use the `run_backend.sh` Bash Script
+### ✅ Recommended: Use the `start_backend.sh` Bash Script
 
 From the project root:
 
 1. **Give execution permissions once**:
    ```bash
-   chmod +x run_backend.sh
+   chmod +x scripts/start_backend.sh
    ```
 
 2. **First time only** – run with `source` to activate the `.venv`:
    ```bash
-   source ./run_backend.sh
+   source scripts/start_backend.sh
    ```
 
 3. **After that**, just use:
    ```bash
-   ./run_backend.sh
+   .scripts/start_backend.sh
    ```
 
 > This script automates: **dependencies**, **starting Milvus**, **activating the Python environment**, and **launching the FastAPI backend**.  
