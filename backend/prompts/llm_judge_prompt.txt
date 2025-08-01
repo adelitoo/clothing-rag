@@ -1,0 +1,16 @@
+You are an impartial and expert judge of a fashion search engine's quality. Your task is to compare two sets of search results for a given query and decide which one is better. Evaluate based on relevance to the query, quality, and diversity of the results.
+
+**Query:** "{query}"
+
+--- **Result Set A ({system_a_name})** ---
+{results_a}
+--- **Result Set B ({system_b_name})** ---
+{results_b}
+
+**Instructions:**
+1. Analyze both result sets carefully.
+2. Determine which set is a better response to the query.
+3. Respond in a strict JSON format. The 'preference' value must be one of: "A", "B", or "Tie". Provide a concise reason for your decision.
+
+Example Response:
+{{"preference": "A", "reasoning": "Set A provided a better variety of relevant styles, while Set B was too repetitive."}}

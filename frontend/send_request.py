@@ -1,92 +1,87 @@
-import json
 import asyncio
-import httpx
-import sys
-import time
 import argparse
-from yaspin import yaspin
+import sys
+import json
+from client import ApiClient
 
-SERVER = "http://127.0.0.1:8000"
-TIMEOUT_SECONDS = 600
-
-
-async def send_request_with_timeout(endpoint: str, json_data: dict):
-    async with httpx.AsyncClient(follow_redirects=True) as client:
-        try:
-            response = await asyncio.wait_for(
-                client.post(f"{SERVER}/{endpoint}/", json=json_data),
-                timeout=TIMEOUT_SECONDS,
-            )
-            return response
-        except (httpx.RequestError, asyncio.TimeoutError):
-            return None
+API_SERVER_URL = "http://192.168.1.50:8000"
 
 
-def run_pipeline(options):
-    with yaspin(text="Sending pipeline request...", color="cyan") as spinner:
-        response = asyncio.run(send_request_with_timeout("pipeline", options))
-        if response:
-            spinner.ok("✅")
-            print("✔️ Pipeline response received:", response.status_code)
-            print("📝 Pipeline response content:", response.text)
-        else:
-            spinner.fail("⏳ Pipeline request timed out or failed.")
-            print("No pipeline response received within timeout.")
-
-
-def run_search(query: str, top_k: int = 10):
-    payload = {"query": query, "top_k": top_k}
-    with yaspin(text=f"Searching for '{query}'...", color="green") as spinner:
-        response = asyncio.run(send_request_with_timeout("search", payload))
-        if response:
-            spinner.ok("✅")
-            print(f"✔️ Search response received: {response.status_code}")
-            print("📝 Search results:", json.dumps(response.json(), indent=4))
-        else:
-            spinner.fail("⏳ Search request timed out or failed.")
-            print("No search response received within timeout.")
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Send requests to your server.")
+async def main():
+    parser = argparse.ArgumentParser(
+        description="Send requests to the fashion search server."
+    )
     parser.add_argument(
         "--mode",
         choices=["pipeline", "search"],
         required=True,
-        help="Mode to run: pipeline or search",
+        help="Choose 'pipeline' to run data processing or 'search' to query items.",
+    )
+
+    parser.add_argument(
+        "--query", type=str, default="", help="Text query for search mode."
     )
     parser.add_argument(
-        "--query",
-        type=str,
-        default="",
-        help="Search query string (only for search mode)",
+        "--topk", type=int, default=12, help="Number of results to return for search."
+    )
+
+    parser.add_argument(
+        "--cleanup", action="store_true", help="Run the dataset cleanup step."
     )
     parser.add_argument(
-        "--topk",
-        type=int,
-        default=10,
-        help="Number of search results to return (only for search mode)",
+        "--caption", action="store_true", help="Run the image captioning pipeline."
+    )
+    parser.add_argument(
+        "--embed",
+        action="store_true",
+        help="Run the text embedding generation pipeline.",
+    )
+    parser.add_argument(
+        "--insert-db",
+        action="store_true",
+        help="Insert embeddings into the vector database.",
     )
 
     args = parser.parse_args()
+    client = ApiClient(base_url=API_SERVER_URL)
 
-    if args.mode == "pipeline":
-        options = {
-            "run_cleaning": False,
-            "run_captioning": False,
-            "run_embedding": False,
-            "run_db_insertion": True,
-        }
-        run_pipeline(options)
+    try:
+        if args.mode == "pipeline":
+            options = {
+                "run_cleanup": args.cleanup,
+                "run_captioning": args.caption,
+                "run_embeddings": args.embed,
+                "run_db_insertion": args.insert_db,
+            }
 
-    elif args.mode == "search":
-        if not args.query:
-            print("Error: --query is required in search mode.")
-            sys.exit(1)
-        run_search(args.query, args.topk)
+            if not any(options.values()):
+                print(
+                    "❌ Error: For pipeline mode, you must select at least one step: --cleanup, --caption, --embed, --insert-db"
+                )
+                sys.exit(1)
+
+            print(f"🚀 Running pipeline with options: {options}")
+            response = await client.run_pipeline(options)
+            if response:
+                print("✅ Pipeline request successful.")
+                print(json.dumps(response, indent=2))
+            else:
+                print("❌ Pipeline request failed.")
+
+        elif args.mode == "search":
+            if not args.query:
+                print("❌ Error: --query is required for search mode.")
+                sys.exit(1)
+
+            response = await client.search(args.query, args.topk)
+            if response:
+                print("✅ Search successful.")
+                print(json.dumps(response, indent=2))
+            else:
+                print("❌ Search failed.")
+    finally:
+        await client.close()
 
 
 if __name__ == "__main__":
-    main()
-    time.sleep(2)
-    sys.exit(0)
+    asyncio.run(main())
