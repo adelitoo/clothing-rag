@@ -1,0 +1,601 @@
+query,model,score
+orange denim jacket for kids,Vector Search (LLM),0.7060641467571258
+orange denim jacket for kids,Baseline,0.7843369722366333
+blue wool jeans for men,Vector Search (LLM),0.8488421618938446
+blue wool jeans for men,Baseline,0.8741396546363831
+orange casual t-shirt unisex,Vector Search (LLM),0.8609315037727356
+orange casual t-shirt unisex,Baseline,0.8690833628177643
+black leather t-shirt for women,Vector Search (LLM),0.7425783157348633
+black leather t-shirt for women,Baseline,0.7977342486381531
+blue casual shoes for men,Vector Search (LLM),0.8112658858299255
+blue casual shoes for men,Baseline,0.7577118635177612
+pink wool sneakers unisex,Vector Search (LLM),0.8092926859855651
+pink wool sneakers unisex,Baseline,0.7759074211120606
+blue formal shoes for kids,Vector Search (LLM),0.682720559835434
+blue formal shoes for kids,Baseline,0.751168715953827
+black cotton sneakers unisex,Vector Search (LLM),0.8757701396942139
+black cotton sneakers unisex,Baseline,0.8690679252147675
+beige linen jeans for women,Vector Search (LLM),0.8199681103229522
+beige linen jeans for women,Baseline,0.8321556091308594
+beige denim t-shirt unisex,Vector Search (LLM),0.8348085939884186
+beige denim t-shirt unisex,Baseline,0.8501390933990478
+white slim fit blazer for kids,Vector Search (LLM),0.8574830532073975
+white slim fit blazer for kids,Baseline,0.7932419836521148
+yellow linen suit for men,Vector Search (LLM),0.6873906433582306
+yellow linen suit for men,Baseline,0.7099624037742615
+gray casual t-shirt unisex,Vector Search (LLM),0.9079544901847839
+gray casual t-shirt unisex,Baseline,0.8905882120132447
+white casual dress for kids,Vector Search (LLM),0.7934448838233947
+white casual dress for kids,Baseline,0.8113442599773407
+yellow wool sneakers for men,Vector Search (LLM),0.7087967753410339
+yellow wool sneakers for men,Baseline,0.762734854221344
+black wool suit for kids,Vector Search (LLM),0.8145991861820221
+black wool suit for kids,Baseline,0.7716843724250794
+white wool blazer for men,Vector Search (LLM),0.8577944934368134
+white wool blazer for men,Baseline,0.8350962698459625
+brown linen boots for kids,Vector Search (LLM),0.7340227603912354
+brown linen boots for kids,Baseline,0.7558105826377869
+red slim fit trousers for women,Vector Search (LLM),0.9035321831703186
+red slim fit trousers for women,Baseline,0.8444555282592774
+orange linen sneakers for men,Vector Search (LLM),0.800470232963562
+orange linen sneakers for men,Baseline,0.7853558301925659
+yellow cotton scarf for women,Vector Search (LLM),0.8648270010948181
+yellow cotton scarf for women,Baseline,0.87276012301445
+red formal coat for kids,Vector Search (LLM),0.7552602648735046
+red formal coat for kids,Baseline,0.7971670627593994
+orange casual hoodie for kids,Vector Search (LLM),0.856533819437027
+orange casual hoodie for kids,Baseline,0.8686732172966003
+black wool blazer for men,Vector Search (LLM),0.8758275449275971
+black wool blazer for men,Baseline,0.8544880390167237
+beige oversized dress for men,Vector Search (LLM),0.7942473292350769
+beige oversized dress for men,Baseline,0.7415449500083924
+blue sportswear sweater for kids,Vector Search (LLM),0.872442901134491
+blue sportswear sweater for kids,Baseline,0.8393873274326324
+blue formal coat unisex,Vector Search (LLM),0.8029842793941497
+blue formal coat unisex,Baseline,0.7812249720096588
+red linen jeans for women,Vector Search (LLM),0.7551881313323975
+red linen jeans for women,Baseline,0.8231003224849701
+pink casual dress unisex,Vector Search (LLM),0.7956389307975769
+pink casual dress unisex,Baseline,0.7989820837974548
+yellow oversized trousers for women,Vector Search (LLM),0.8181253671646118
+yellow oversized trousers for women,Baseline,0.8453992187976838
+red casual boots for men,Vector Search (LLM),0.7839571535587311
+red casual boots for men,Baseline,0.7600934147834778
+black denim jeans for women,Vector Search (LLM),0.8639273583889008
+black denim jeans for women,Baseline,0.8911225020885467
+orange oversized shoes for men,Vector Search (LLM),0.8140575170516968
+orange oversized shoes for men,Baseline,0.7626390993595124
+brown oversized shoes unisex,Vector Search (LLM),0.7584095180034638
+brown oversized shoes unisex,Baseline,0.7370917081832886
+pink linen scarf for men,Vector Search (LLM),0.8639141380786896
+pink linen scarf for men,Baseline,0.8354814112186432
+orange denim skirt for kids,Vector Search (LLM),0.79459627866745
+orange denim skirt for kids,Baseline,0.7693984687328339
+orange slim fit t-shirt for kids,Vector Search (LLM),0.8625610589981079
+orange slim fit t-shirt for kids,Baseline,0.8656355619430542
+brown cotton boots for men,Vector Search (LLM),0.8167598903179168
+brown cotton boots for men,Baseline,0.7780169308185577
+green casual suit for women,Vector Search (LLM),0.7600601792335511
+green casual suit for women,Baseline,0.7349994719028473
+pink denim blazer for kids,Vector Search (LLM),0.8222935259342193
+pink denim blazer for kids,Baseline,0.8054295063018799
+orange casual shoes for women,Vector Search (LLM),0.8172551333904267
+orange casual shoes for women,Baseline,0.7744887232780456
+red slim fit suit for women,Vector Search (LLM),0.7978335380554199
+red slim fit suit for women,Baseline,0.7659121692180634
+pink casual sweater for men,Vector Search (LLM),0.8861927330493927
+pink casual sweater for men,Baseline,0.8075318992137909
+yellow slim fit boots for men,Vector Search (LLM),0.8025607764720917
+yellow slim fit boots for men,Baseline,0.785003799200058
+white slim fit sweater for kids,Vector Search (LLM),0.9110601663589477
+white slim fit sweater for kids,Baseline,0.8543012320995331
+blue leather hoodie for men,Vector Search (LLM),0.7439354956150055
+blue leather hoodie for men,Baseline,0.7607325553894043
+white formal blazer for men,Vector Search (LLM),0.848327910900116
+white formal blazer for men,Baseline,0.8265887856483459
+pink cotton jeans unisex,Vector Search (LLM),0.8151080071926117
+pink cotton jeans unisex,Baseline,0.8084790110588074
+pink cotton dress unisex,Vector Search (LLM),0.8126521646976471
+pink cotton dress unisex,Baseline,0.8091452538967132
+blue casual suit for women,Vector Search (LLM),0.6997118532657624
+blue casual suit for women,Baseline,0.7374069809913635
+green oversized skirt for kids,Vector Search (LLM),0.7656336545944213
+green oversized skirt for kids,Baseline,0.7841988325119018
+gray casual boots for men,Vector Search (LLM),0.8147992491722107
+gray casual boots for men,Baseline,0.7694538831710815
+blue wool t-shirt for kids,Vector Search (LLM),0.8892001926898956
+blue wool t-shirt for kids,Baseline,0.8561562538146973
+black sportswear scarf for women,Vector Search (LLM),0.8915247976779938
+black sportswear scarf for women,Baseline,0.8476462543010712
+yellow wool jacket for men,Vector Search (LLM),0.7924433171749115
+yellow wool jacket for men,Baseline,0.7932187974452972
+orange leather hoodie for men,Vector Search (LLM),0.7801681578159332
+orange leather hoodie for men,Baseline,0.802526307106018
+black slim fit t-shirt for women,Vector Search (LLM),0.870133352279663
+black slim fit t-shirt for women,Baseline,0.8596937477588653
+green formal hoodie for women,Vector Search (LLM),0.8342993855476379
+green formal hoodie for women,Baseline,0.7984004974365234
+yellow sportswear boots for women,Vector Search (LLM),0.7288700044155121
+yellow sportswear boots for women,Baseline,0.7916987836360931
+gray oversized hoodie for men,Vector Search (LLM),0.831169843673706
+gray oversized hoodie for men,Baseline,0.8403640031814575
+white oversized trousers unisex,Vector Search (LLM),0.8013095319271087
+white oversized trousers unisex,Baseline,0.8226173758506775
+brown formal blazer for men,Vector Search (LLM),0.763707971572876
+brown formal blazer for men,Baseline,0.7484340846538544
+orange denim jacket unisex,Vector Search (LLM),0.7644254624843597
+orange denim jacket unisex,Baseline,0.786706167459488
+beige denim hoodie for women,Vector Search (LLM),0.822052663564682
+beige denim hoodie for women,Baseline,0.8180166244506836
+blue casual boots for women,Vector Search (LLM),0.7511123180389404
+blue casual boots for women,Baseline,0.7477816820144654
+brown cotton dress unisex,Vector Search (LLM),0.771052461862564
+brown cotton dress unisex,Baseline,0.7153508722782135
+blue denim boots for men,Vector Search (LLM),0.7058879733085632
+blue denim boots for men,Baseline,0.7887026309967041
+black casual blazer for men,Vector Search (LLM),0.893893939256668
+black casual blazer for men,Baseline,0.8430019617080688
+white wool jeans unisex,Vector Search (LLM),0.8050612807273865
+white wool jeans unisex,Baseline,0.8144861221313476
+gray formal hoodie unisex,Vector Search (LLM),0.8240814745426178
+gray formal hoodie unisex,Baseline,0.807079941034317
+black cotton coat for men,Vector Search (LLM),0.7829004406929017
+black cotton coat for men,Baseline,0.8353901445865631
+brown linen sweater unisex,Vector Search (LLM),0.7781704068183899
+brown linen sweater unisex,Baseline,0.7600292325019836
+green oversized sneakers unisex,Vector Search (LLM),0.8004460036754608
+green oversized sneakers unisex,Baseline,0.7605516910552979
+red wool dress for women,Vector Search (LLM),0.7712014675140381
+red wool dress for women,Baseline,0.7894766688346863
+black sportswear sneakers for men,Vector Search (LLM),0.8096299529075622
+black sportswear sneakers for men,Baseline,0.8561246752738952
+beige leather jacket unisex,Vector Search (LLM),0.8263612449169159
+beige leather jacket unisex,Baseline,0.8169334590435028
+pink casual jeans for men,Vector Search (LLM),0.8321702063083649
+pink casual jeans for men,Baseline,0.7753603279590606
+pink denim blazer for women,Vector Search (LLM),0.7718812584877014
+pink denim blazer for women,Baseline,0.846021044254303
+white sportswear t-shirt for women,Vector Search (LLM),0.9289676427841187
+white sportswear t-shirt for women,Baseline,0.8581682801246643
+brown denim sweater for women,Vector Search (LLM),0.7930764079093933
+brown denim sweater for women,Baseline,0.7610964238643646
+yellow sportswear jacket for men,Vector Search (LLM),0.7617497265338897
+yellow sportswear jacket for men,Baseline,0.8275452494621277
+brown sportswear shoes for kids,Vector Search (LLM),0.7936449348926544
+brown sportswear shoes for kids,Baseline,0.7660491704940796
+green wool skirt for kids,Vector Search (LLM),0.7912908792495728
+green wool skirt for kids,Baseline,0.7781682968139648
+blue linen coat for women,Vector Search (LLM),0.7810628592967988
+blue linen coat for women,Baseline,0.7691639423370361
+orange linen boots for kids,Vector Search (LLM),0.7322284698486328
+orange linen boots for kids,Baseline,0.7524614691734314
+white leather boots for men,Vector Search (LLM),0.7665189325809478
+white leather boots for men,Baseline,0.7999681949615478
+white casual hoodie for kids,Vector Search (LLM),0.8465175628662109
+white casual hoodie for kids,Baseline,0.8840963840484619
+red slim fit sweater for men,Vector Search (LLM),0.8627662837505341
+red slim fit sweater for men,Baseline,0.8260996222496033
+blue slim fit dress for women,Vector Search (LLM),0.7621102035045624
+blue slim fit dress for women,Baseline,0.7806632041931152
+gray casual sneakers for kids,Vector Search (LLM),0.8166345000267029
+gray casual sneakers for kids,Baseline,0.8105149865150452
+yellow casual jacket for kids,Vector Search (LLM),0.7560844480991363
+yellow casual jacket for kids,Baseline,0.8315049946308136
+orange denim sweater for women,Vector Search (LLM),0.788442724943161
+orange denim sweater for women,Baseline,0.8265487611293793
+green denim sweater for men,Vector Search (LLM),0.7633496582508087
+green denim sweater for men,Baseline,0.7972926318645477
+pink cotton dress for kids,Vector Search (LLM),0.8352567911148071
+pink cotton dress for kids,Baseline,0.8062768042087555
+yellow wool sneakers for kids,Vector Search (LLM),0.7387970209121704
+yellow wool sneakers for kids,Baseline,0.7845738410949707
+blue linen scarf unisex,Vector Search (LLM),0.7945346772670746
+blue linen scarf unisex,Baseline,0.806903213262558
+green leather t-shirt unisex,Vector Search (LLM),0.8087518215179443
+green leather t-shirt unisex,Baseline,0.7766092181205749
+green leather jacket for kids,Vector Search (LLM),0.7257881760597229
+green leather jacket for kids,Baseline,0.7664256930351258
+red linen jeans unisex,Vector Search (LLM),0.8010209023952484
+red linen jeans unisex,Baseline,0.786799556016922
+pink oversized scarf for men,Vector Search (LLM),0.8676752328872681
+pink oversized scarf for men,Baseline,0.8429843544960022
+white denim sweater for women,Vector Search (LLM),0.825915390253067
+white denim sweater for women,Baseline,0.8464996039867401
+pink leather blazer for kids,Vector Search (LLM),0.8126022577285766
+pink leather blazer for kids,Baseline,0.7744778633117676
+yellow casual jeans unisex,Vector Search (LLM),0.7950682461261749
+yellow casual jeans unisex,Baseline,0.8282623171806336
+red leather dress for kids,Vector Search (LLM),0.664980286359787
+red leather dress for kids,Baseline,0.7496246278285981
+black slim fit hoodie for women,Vector Search (LLM),0.8664049983024598
+black slim fit hoodie for women,Baseline,0.8303289175033569
+orange denim trousers unisex,Vector Search (LLM),0.8206659734249115
+orange denim trousers unisex,Baseline,0.8132340967655182
+yellow cotton sweater for women,Vector Search (LLM),0.8455278396606445
+yellow cotton sweater for women,Baseline,0.8413373470306397
+red cotton sweater unisex,Vector Search (LLM),0.8966922521591186
+red cotton sweater unisex,Baseline,0.86631560921669
+black cotton sneakers for kids,Vector Search (LLM),0.8425386309623718
+black cotton sneakers for kids,Baseline,0.8337851464748383
+brown wool dress for women,Vector Search (LLM),0.7314652621746063
+brown wool dress for women,Baseline,0.7128199815750123
+white oversized blazer for men,Vector Search (LLM),0.8621752440929413
+white oversized blazer for men,Baseline,0.8252463936805725
+gray wool hoodie unisex,Vector Search (LLM),0.8402447819709777
+gray wool hoodie unisex,Baseline,0.8318574607372284
+beige linen blazer for women,Vector Search (LLM),0.8699286699295044
+beige linen blazer for women,Baseline,0.8627273261547088
+blue leather skirt for women,Vector Search (LLM),0.7301423490047455
+blue leather skirt for women,Baseline,0.7756564855575562
+brown slim fit dress for men,Vector Search (LLM),0.7173177599906921
+brown slim fit dress for men,Baseline,0.694722032546997
+green slim fit skirt unisex,Vector Search (LLM),0.7874359965324402
+green slim fit skirt unisex,Baseline,0.8126890242099762
+orange casual trousers for men,Vector Search (LLM),0.8676311016082764
+orange casual trousers for men,Baseline,0.7902915716171265
+white linen jeans for kids,Vector Search (LLM),0.863845807313919
+white linen jeans for kids,Baseline,0.8363953113555909
+black denim shoes unisex,Vector Search (LLM),0.7926892817020417
+black denim shoes unisex,Baseline,0.7831791043281555
+beige slim fit coat for men,Vector Search (LLM),0.8665476858615875
+beige slim fit coat for men,Baseline,0.8205682516098023
+brown sportswear hoodie for kids,Vector Search (LLM),0.827833604812622
+brown sportswear hoodie for kids,Baseline,0.8006182312965393
+black oversized jacket for women,Vector Search (LLM),0.8435531854629517
+black oversized jacket for women,Baseline,0.8523442924022675
+beige oversized t-shirt for kids,Vector Search (LLM),0.8549585103988647
+beige oversized t-shirt for kids,Baseline,0.8432152390480041
+yellow slim fit skirt for men,Vector Search (LLM),0.776572173833847
+yellow slim fit skirt for men,Baseline,0.7878802835941314
+green casual dress unisex,Vector Search (LLM),0.7473503768444061
+green casual dress unisex,Baseline,0.7751388907432556
+beige oversized sneakers for kids,Vector Search (LLM),0.7895746111869812
+beige oversized sneakers for kids,Baseline,0.7984332859516143
+pink cotton hoodie unisex,Vector Search (LLM),0.8211755573749542
+pink cotton hoodie unisex,Baseline,0.8544569790363312
+orange oversized skirt for women,Vector Search (LLM),0.8151224970817565
+orange oversized skirt for women,Baseline,0.8439842462539673
+yellow sportswear dress unisex,Vector Search (LLM),0.8192732930183411
+yellow sportswear dress unisex,Baseline,0.7852667391300201
+pink leather dress for kids,Vector Search (LLM),0.6734193742275238
+pink leather dress for kids,Baseline,0.7385987043380737
+blue oversized suit for kids,Vector Search (LLM),0.7770572602748871
+blue oversized suit for kids,Baseline,0.7515231370925903
+gray formal boots for women,Vector Search (LLM),0.8265696167945862
+gray formal boots for women,Baseline,0.7756483793258667
+pink formal suit for women,Vector Search (LLM),0.6805765688419342
+pink formal suit for women,Baseline,0.751186627149582
+orange denim dress for kids,Vector Search (LLM),0.7617007434368134
+orange denim dress for kids,Baseline,0.7620894551277161
+white wool skirt for kids,Vector Search (LLM),0.7689374327659607
+white wool skirt for kids,Baseline,0.8215637445449829
+blue wool jeans for men,Vector Search (LLM),0.8488421618938446
+blue wool jeans for men,Baseline,0.8741396546363831
+black wool boots for men,Vector Search (LLM),0.8024450004100799
+black wool boots for men,Baseline,0.8123546957969665
+gray oversized sweater for women,Vector Search (LLM),0.8563667416572571
+gray oversized sweater for women,Baseline,0.8603039383888245
+brown formal coat for women,Vector Search (LLM),0.7870423972606659
+brown formal coat for women,Baseline,0.7931402802467347
+red leather sweater for men,Vector Search (LLM),0.8247750282287598
+red leather sweater for men,Baseline,0.7691546261310578
+brown wool jeans unisex,Vector Search (LLM),0.7994139790534973
+brown wool jeans unisex,Baseline,0.7535540461540222
+black casual hoodie for men,Vector Search (LLM),0.8552484393119812
+black casual hoodie for men,Baseline,0.847096961736679
+gray cotton suit unisex,Vector Search (LLM),0.7566783785820007
+gray cotton suit unisex,Baseline,0.7472504556179047
+orange casual scarf for kids,Vector Search (LLM),0.8113123834133148
+orange casual scarf for kids,Baseline,0.827403861284256
+gray sportswear blazer unisex,Vector Search (LLM),0.800448739528656
+gray sportswear blazer unisex,Baseline,0.8249241769313812
+pink formal sweater for women,Vector Search (LLM),0.8631128072738647
+pink formal sweater for women,Baseline,0.8227109313011169
+gray formal dress for women,Vector Search (LLM),0.7275205254554749
+gray formal dress for women,Baseline,0.7589655041694641
+orange linen suit unisex,Vector Search (LLM),0.7279283583164216
+orange linen suit unisex,Baseline,0.7079420268535614
+orange wool dress unisex,Vector Search (LLM),0.7356029033660889
+orange wool dress unisex,Baseline,0.7744615912437439
+white linen hoodie for kids,Vector Search (LLM),0.7917790949344635
+white linen hoodie for kids,Baseline,0.8158987700939179
+beige slim fit sweater for men,Vector Search (LLM),0.8975518107414245
+beige slim fit sweater for men,Baseline,0.8241649508476258
+red cotton hoodie unisex,Vector Search (LLM),0.8632671117782593
+red cotton hoodie unisex,Baseline,0.8697282910346985
+red wool t-shirt unisex,Vector Search (LLM),0.8273509740829468
+red wool t-shirt unisex,Baseline,0.8566876590251923
+brown slim fit scarf unisex,Vector Search (LLM),0.797720855474472
+brown slim fit scarf unisex,Baseline,0.8342345118522644
+brown leather hoodie unisex,Vector Search (LLM),0.7211334943771363
+brown leather hoodie unisex,Baseline,0.7078602254390717
+brown sportswear sneakers for men,Vector Search (LLM),0.7785256147384644
+brown sportswear sneakers for men,Baseline,0.7532803118228912
+yellow oversized boots for men,Vector Search (LLM),0.7768307864665985
+yellow oversized boots for men,Baseline,0.7903774321079254
+beige linen suit unisex,Vector Search (LLM),0.8075875222682953
+beige linen suit unisex,Baseline,0.7582305431365967
+brown casual sneakers for women,Vector Search (LLM),0.7863455653190613
+brown casual sneakers for women,Baseline,0.7529754221439362
+gray wool dress unisex,Vector Search (LLM),0.785541832447052
+gray wool dress unisex,Baseline,0.784042239189148
+gray leather coat for kids,Vector Search (LLM),0.7446905255317688
+gray leather coat for kids,Baseline,0.7637923359870911
+orange oversized sneakers for women,Vector Search (LLM),0.7814703524112702
+orange oversized sneakers for women,Baseline,0.8156334519386291
+gray cotton shoes for men,Vector Search (LLM),0.841284430027008
+gray cotton shoes for men,Baseline,0.7853048622608185
+brown sportswear shoes for men,Vector Search (LLM),0.770697170495987
+brown sportswear shoes for men,Baseline,0.7578511238098145
+white oversized jeans unisex,Vector Search (LLM),0.8750724732875824
+white oversized jeans unisex,Baseline,0.8107982337474823
+red leather dress unisex,Vector Search (LLM),0.6998022198677063
+red leather dress unisex,Baseline,0.7100564479827881
+beige wool boots for kids,Vector Search (LLM),0.7775232195854187
+beige wool boots for kids,Baseline,0.8356414079666138
+beige oversized dress unisex,Vector Search (LLM),0.8112821400165557
+beige oversized dress unisex,Baseline,0.779659914970398
+green denim boots for men,Vector Search (LLM),0.6574113070964813
+green denim boots for men,Baseline,0.7509196996688843
+pink leather trousers for women,Vector Search (LLM),0.7766130268573761
+pink leather trousers for women,Baseline,0.7857043325901032
+orange denim suit for men,Vector Search (LLM),0.7454014241695404
+orange denim suit for men,Baseline,0.7237767279148102
+black wool hoodie for men,Vector Search (LLM),0.790405535697937
+black wool hoodie for men,Baseline,0.8300291299819946
+yellow cotton hoodie for women,Vector Search (LLM),0.8386700212955475
+yellow cotton hoodie for women,Baseline,0.846321976184845
+gray denim shoes for women,Vector Search (LLM),0.7684273004531861
+gray denim shoes for women,Baseline,0.7842097461223603
+gray linen suit for kids,Vector Search (LLM),0.7326008081436157
+gray linen suit for kids,Baseline,0.7480810046195984
+red sportswear shoes for men,Vector Search (LLM),0.7970468997955322
+red sportswear shoes for men,Baseline,0.7876321911811829
+red linen t-shirt for men,Vector Search (LLM),0.8114450514316559
+red linen t-shirt for men,Baseline,0.8294902980327606
+green sportswear skirt unisex,Vector Search (LLM),0.7833791971206665
+green sportswear skirt unisex,Baseline,0.7944469630718232
+brown wool t-shirt for women,Vector Search (LLM),0.8590594530105591
+brown wool t-shirt for women,Baseline,0.7470468819141388
+white linen blazer for men,Vector Search (LLM),0.8425038635730744
+white linen blazer for men,Baseline,0.8548800349235535
+yellow leather trousers unisex,Vector Search (LLM),0.7612460255622864
+yellow leather trousers unisex,Baseline,0.7702440977096557
+orange slim fit t-shirt for kids,Vector Search (LLM),0.8625610589981079
+orange slim fit t-shirt for kids,Baseline,0.8656355619430542
+black oversized blazer unisex,Vector Search (LLM),0.811275839805603
+black oversized blazer unisex,Baseline,0.8498466789722443
+white oversized trousers unisex,Vector Search (LLM),0.8013095319271087
+white oversized trousers unisex,Baseline,0.8226173758506775
+red oversized jeans for kids,Vector Search (LLM),0.8351803541183471
+red oversized jeans for kids,Baseline,0.8201183676719666
+yellow casual suit unisex,Vector Search (LLM),0.7288401603698731
+yellow casual suit unisex,Baseline,0.7578758835792542
+gray oversized blazer for kids,Vector Search (LLM),0.7954596817493439
+gray oversized blazer for kids,Baseline,0.8237235605716705
+beige wool blazer for men,Vector Search (LLM),0.8432857096195221
+beige wool blazer for men,Baseline,0.8393600165843964
+green formal hoodie unisex,Vector Search (LLM),0.8603315770626068
+green formal hoodie unisex,Baseline,0.796907490491867
+yellow sportswear skirt unisex,Vector Search (LLM),0.8190772771835327
+yellow sportswear skirt unisex,Baseline,0.8167200565338135
+beige leather boots for kids,Vector Search (LLM),0.8183655917644501
+beige leather boots for kids,Baseline,0.8265166819095612
+red formal hoodie for kids,Vector Search (LLM),0.7685070335865021
+red formal hoodie for kids,Baseline,0.8570722281932831
+green slim fit dress for kids,Vector Search (LLM),0.7810617566108704
+green slim fit dress for kids,Baseline,0.7734208047389984
+pink leather scarf for women,Vector Search (LLM),0.8225908160209656
+pink leather scarf for women,Baseline,0.8198354303836822
+white wool sneakers unisex,Vector Search (LLM),0.8214613795280457
+white wool sneakers unisex,Baseline,0.807768189907074
+gray casual suit for women,Vector Search (LLM),0.8042101383209228
+gray casual suit for women,Baseline,0.7647764563560486
+gray formal boots for men,Vector Search (LLM),0.7131016790866852
+gray formal boots for men,Baseline,0.731949257850647
+white linen hoodie unisex,Vector Search (LLM),0.786207526922226
+white linen hoodie unisex,Baseline,0.7991765141487122
+blue linen skirt for kids,Vector Search (LLM),0.8076630294322967
+blue linen skirt for kids,Baseline,0.8219017088413239
+gray casual scarf for kids,Vector Search (LLM),0.8355647921562195
+gray casual scarf for kids,Baseline,0.8587479531764984
+brown casual trousers for kids,Vector Search (LLM),0.8654446721076965
+brown casual trousers for kids,Baseline,0.8299672245979309
+gray linen dress for kids,Vector Search (LLM),0.7592163383960724
+gray linen dress for kids,Baseline,0.7849475383758545
+blue denim sneakers for women,Vector Search (LLM),0.7762966334819794
+blue denim sneakers for women,Baseline,0.7843842148780823
+beige denim sneakers for women,Vector Search (LLM),0.854870331287384
+beige denim sneakers for women,Baseline,0.8630497515201568
+blue wool sneakers unisex,Vector Search (LLM),0.7940764784812927
+blue wool sneakers unisex,Baseline,0.7572883486747741
+green sportswear suit for kids,Vector Search (LLM),0.6472550511360169
+green sportswear suit for kids,Baseline,0.8041128695011139
+white wool dress for women,Vector Search (LLM),0.7246867477893829
+white wool dress for women,Baseline,0.8175064206123352
+beige cotton dress for men,Vector Search (LLM),0.6810869872570038
+beige cotton dress for men,Baseline,0.7439724862575531
+pink cotton dress for men,Vector Search (LLM),0.7822786390781402
+pink cotton dress for men,Baseline,0.7644569218158722
+black casual dress for women,Vector Search (LLM),0.838486397266388
+black casual dress for women,Baseline,0.8242829024791718
+orange formal t-shirt for men,Vector Search (LLM),0.8681515395641327
+orange formal t-shirt for men,Baseline,0.7950566709041595
+yellow linen boots unisex,Vector Search (LLM),0.7493106603622437
+yellow linen boots unisex,Baseline,0.763519698381424
+gray slim fit jeans for men,Vector Search (LLM),0.9047726333141327
+gray slim fit jeans for men,Baseline,0.894289892911911
+green formal t-shirt for men,Vector Search (LLM),0.8397653460502624
+green formal t-shirt for men,Baseline,0.8036811947822571
+brown formal t-shirt for men,Vector Search (LLM),0.8003838658332825
+brown formal t-shirt for men,Baseline,0.753015398979187
+red cotton suit for kids,Vector Search (LLM),0.8127756178379059
+red cotton suit for kids,Baseline,0.7227693140506745
+white wool t-shirt unisex,Vector Search (LLM),0.8778153419494629
+white wool t-shirt unisex,Baseline,0.851874053478241
+yellow sportswear suit for women,Vector Search (LLM),0.7164709031581878
+yellow sportswear suit for women,Baseline,0.7528950273990631
+pink oversized boots unisex,Vector Search (LLM),0.7548848152160644
+pink oversized boots unisex,Baseline,0.7735140323638916
+green sportswear coat for kids,Vector Search (LLM),0.8178861081600189
+green sportswear coat for kids,Baseline,0.803921777009964
+yellow sportswear jacket for men,Vector Search (LLM),0.7617497265338897
+yellow sportswear jacket for men,Baseline,0.8275452494621277
+blue wool dress for men,Vector Search (LLM),0.730768620967865
+blue wool dress for men,Baseline,0.7395070016384124
+red wool jeans for men,Vector Search (LLM),0.7904265940189361
+red wool jeans for men,Baseline,0.8110345125198364
+red leather coat unisex,Vector Search (LLM),0.721142315864563
+red leather coat unisex,Baseline,0.7663902997970581
+yellow formal dress for men,Vector Search (LLM),0.6900526940822601
+yellow formal dress for men,Baseline,0.718891191482544
+blue linen sneakers for kids,Vector Search (LLM),0.7938647329807281
+blue linen sneakers for kids,Baseline,0.807630205154419
+gray denim skirt for women,Vector Search (LLM),0.7978177189826965
+gray denim skirt for women,Baseline,0.8267085731029511
+green sportswear skirt for women,Vector Search (LLM),0.8259429037570953
+green sportswear skirt for women,Baseline,0.8029000163078308
+brown denim scarf for women,Vector Search (LLM),0.828965550661087
+brown denim scarf for women,Baseline,0.8178830027580262
+orange cotton sweater for kids,Vector Search (LLM),0.9057586491107941
+orange cotton sweater for kids,Baseline,0.8605907976627349
+red denim jacket for women,Vector Search (LLM),0.785556572675705
+red denim jacket for women,Baseline,0.8409616410732269
+green sportswear sneakers for kids,Vector Search (LLM),0.6952923178672791
+green sportswear sneakers for kids,Baseline,0.7814675629138946
+gray denim boots for kids,Vector Search (LLM),0.7669107735157012
+gray denim boots for kids,Baseline,0.787322586774826
+brown linen scarf unisex,Vector Search (LLM),0.8165739953517914
+brown linen scarf unisex,Baseline,0.8160323739051819
+gray denim shoes for men,Vector Search (LLM),0.8010639250278473
+gray denim shoes for men,Baseline,0.7799071609973908
+brown slim fit shoes for kids,Vector Search (LLM),0.7614033699035645
+brown slim fit shoes for kids,Baseline,0.7583758890628814
+black denim hoodie for men,Vector Search (LLM),0.8280490279197693
+black denim hoodie for men,Baseline,0.8287936747074127
+orange linen shoes for men,Vector Search (LLM),0.7425957918167114
+orange linen shoes for men,Baseline,0.7352965593338012
+red formal scarf unisex,Vector Search (LLM),0.7701542019844055
+red formal scarf unisex,Baseline,0.8571859776973725
+green cotton shoes unisex,Vector Search (LLM),0.7983816742897034
+green cotton shoes unisex,Baseline,0.7680836200714112
+orange formal t-shirt unisex,Vector Search (LLM),0.8744897186756134
+orange formal t-shirt unisex,Baseline,0.8389258742332458
+beige oversized trousers for kids,Vector Search (LLM),0.870697659254074
+beige oversized trousers for kids,Baseline,0.8341737687587738
+orange denim blazer for women,Vector Search (LLM),0.7811813950538635
+orange denim blazer for women,Baseline,0.8420820832252502
+beige oversized sneakers unisex,Vector Search (LLM),0.8406098842620849
+beige oversized sneakers unisex,Baseline,0.8303185880184174
+green oversized blazer for men,Vector Search (LLM),0.8493490874767303
+green oversized blazer for men,Baseline,0.8002796649932862
+gray denim trousers for kids,Vector Search (LLM),0.8719684541225433
+gray denim trousers for kids,Baseline,0.8643036961555481
+beige denim suit unisex,Vector Search (LLM),0.7884139299392701
+beige denim suit unisex,Baseline,0.7361829996109008
+pink leather skirt unisex,Vector Search (LLM),0.7858177840709686
+pink leather skirt unisex,Baseline,0.7630449533462524
+brown leather hoodie for kids,Vector Search (LLM),0.7581182360649109
+brown leather hoodie for kids,Baseline,0.7364840865135193
+yellow formal skirt unisex,Vector Search (LLM),0.8623093366622925
+yellow formal skirt unisex,Baseline,0.8307568609714509
+black wool dress for women,Vector Search (LLM),0.8468905806541442
+black wool dress for women,Baseline,0.8137806951999664
+green formal sweater unisex,Vector Search (LLM),0.8695198118686676
+green formal sweater unisex,Baseline,0.8142626106739044
+white leather skirt for women,Vector Search (LLM),0.7770408391952515
+white leather skirt for women,Baseline,0.8284666121006012
+red linen scarf for men,Vector Search (LLM),0.7890470087528229
+red linen scarf for men,Baseline,0.821447217464447
+pink oversized t-shirt for women,Vector Search (LLM),0.864680963754654
+pink oversized t-shirt for women,Baseline,0.8405940473079682
+white formal t-shirt for women,Vector Search (LLM),0.8916248798370361
+white formal t-shirt for women,Baseline,0.8391496777534485
+gray linen scarf for kids,Vector Search (LLM),0.8213534355163574
+gray linen scarf for kids,Baseline,0.8091230630874634
+brown formal boots for women,Vector Search (LLM),0.7541687309741973
+brown formal boots for women,Baseline,0.7632835388183594
+gray casual jeans unisex,Vector Search (LLM),0.8556848108768463
+gray casual jeans unisex,Baseline,0.8551776647567749
+blue sportswear scarf for women,Vector Search (LLM),0.8548552393913269
+blue sportswear scarf for women,Baseline,0.8151362180709839
+white linen suit unisex,Vector Search (LLM),0.7742767095565796
+white linen suit unisex,Baseline,0.7558040916919708
+beige casual dress for men,Vector Search (LLM),0.8260752201080322
+beige casual dress for men,Baseline,0.7508173823356629
+green linen blazer unisex,Vector Search (LLM),0.817772650718689
+green linen blazer unisex,Baseline,0.8071875035762787
+red formal scarf unisex,Vector Search (LLM),0.7701542019844055
+red formal scarf unisex,Baseline,0.8571859776973725
+beige slim fit scarf unisex,Vector Search (LLM),0.8653090536594391
+beige slim fit scarf unisex,Baseline,0.8656291246414185
+gray slim fit blazer for women,Vector Search (LLM),0.897077602148056
+gray slim fit blazer for women,Baseline,0.8566398084163666
+blue sportswear coat for women,Vector Search (LLM),0.8476497888565063
+blue sportswear coat for women,Baseline,0.7957493543624878
+brown leather trousers unisex,Vector Search (LLM),0.8005158483982087
+brown leather trousers unisex,Baseline,0.7784988105297088
+brown oversized skirt for women,Vector Search (LLM),0.7659057736396789
+brown oversized skirt for women,Baseline,0.80088170170784
+gray leather jeans for kids,Vector Search (LLM),0.8574509561061859
+gray leather jeans for kids,Baseline,0.81558176279068
+white formal t-shirt unisex,Vector Search (LLM),0.8915311336517334
+white formal t-shirt unisex,Baseline,0.8686628043651581
+black cotton coat for women,Vector Search (LLM),0.8449813544750213
+black cotton coat for women,Baseline,0.8393610298633576
+white formal suit for kids,Vector Search (LLM),0.7756428360939026
+white formal suit for kids,Baseline,0.7485349833965301
+beige sportswear sneakers unisex,Vector Search (LLM),0.8869859039783478
+beige sportswear sneakers unisex,Baseline,0.8556914806365967
+orange denim blazer for kids,Vector Search (LLM),0.8001747131347656
+orange denim blazer for kids,Baseline,0.772840678691864
+orange casual coat for kids,Vector Search (LLM),0.8314160346984864
+orange casual coat for kids,Baseline,0.806229168176651
+orange formal blazer for men,Vector Search (LLM),0.855828583240509
+orange formal blazer for men,Baseline,0.7873933792114258
+yellow denim hoodie for kids,Vector Search (LLM),0.8247228682041168
+yellow denim hoodie for kids,Baseline,0.8655893981456757
+blue denim coat for men,Vector Search (LLM),0.8464505791664123
+blue denim coat for men,Baseline,0.8465077400207519
+orange denim boots for women,Vector Search (LLM),0.7831966757774353
+orange denim boots for women,Baseline,0.7982541978359222
+green leather jacket for kids,Vector Search (LLM),0.7257881760597229
+green leather jacket for kids,Baseline,0.7664256930351258
+black linen trousers for kids,Vector Search (LLM),0.8367488503456115
+black linen trousers for kids,Baseline,0.8215927839279175
+brown cotton hoodie unisex,Vector Search (LLM),0.8629188060760498
+brown cotton hoodie unisex,Baseline,0.7896470546722412
+yellow cotton jeans for women,Vector Search (LLM),0.8118751585483551
+yellow cotton jeans for women,Baseline,0.8088101863861084
+white sportswear blazer unisex,Vector Search (LLM),0.8464504897594451
+white sportswear blazer unisex,Baseline,0.8218920826911926
+yellow wool boots for women,Vector Search (LLM),0.7242528080940247
+yellow wool boots for women,Baseline,0.7943182468414307
+blue formal skirt for kids,Vector Search (LLM),0.7763530492782593
+blue formal skirt for kids,Baseline,0.7924772381782532
+gray linen skirt for men,Vector Search (LLM),0.7553504943847656
+gray linen skirt for men,Baseline,0.7565316259860992
+gray linen skirt for women,Vector Search (LLM),0.7309842586517334
+gray linen skirt for women,Baseline,0.798291951417923
+white formal trousers for kids,Vector Search (LLM),0.7905968964099884
+white formal trousers for kids,Baseline,0.8271063148975373
+orange oversized sneakers for kids,Vector Search (LLM),0.7863419592380524
+orange oversized sneakers for kids,Baseline,0.7834120213985443
+gray linen hoodie unisex,Vector Search (LLM),0.8247693121433258
+gray linen hoodie unisex,Baseline,0.7936881124973297
+gray denim hoodie unisex,Vector Search (LLM),0.8101083099842071
+gray denim hoodie unisex,Baseline,0.8219212770462037
+yellow slim fit shoes for kids,Vector Search (LLM),0.79285147190094
+yellow slim fit shoes for kids,Baseline,0.7810210764408112
+green leather blazer unisex,Vector Search (LLM),0.7762569069862366
+green leather blazer unisex,Baseline,0.7785669684410095
+green leather shoes for men,Vector Search (LLM),0.7496185183525086
+green leather shoes for men,Baseline,0.7383931279182434
+yellow formal blazer for kids,Vector Search (LLM),0.8194611251354218
+yellow formal blazer for kids,Baseline,0.7646888136863709
+blue sportswear suit for kids,Vector Search (LLM),0.7743707895278931
+blue sportswear suit for kids,Baseline,0.7802894830703735
+blue wool shoes for kids,Vector Search (LLM),0.7217024385929107
+blue wool shoes for kids,Baseline,0.7909982800483704
+orange cotton skirt for men,Vector Search (LLM),0.7157736837863922
+orange cotton skirt for men,Baseline,0.7909889876842499
