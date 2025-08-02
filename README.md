@@ -1,4 +1,4 @@
-# 🧵 Fashion Search Project
+# 🧵 Fashion Search Project 
 
 A full-stack fashion search application that uses CLIP embeddings, vector similarity search, and LLM-powered query enhancement to find visually similar fashion items.
 
