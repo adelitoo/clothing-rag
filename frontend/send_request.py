@@ -4,7 +4,7 @@ import sys
 import json
 from client import ApiClient
 
-API_SERVER_URL = "http://192.168.1.50:8000"
+API_SERVER_URL = "http://127.0.0.1:8000"
 
 
 async def main():
