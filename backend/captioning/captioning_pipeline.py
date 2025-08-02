@@ -5,7 +5,7 @@ from transformers import logging as transformers_logging
 
 from utils.dataloader_utils import create_image_dataloader
 from utils.model_utils import load_captioning_model_and_processor
-from models.image_dataset import ImageDataset
+from utils.dataset_utils import ImageDataset
 
 class CaptioningPipeline:
     def __init__(self, config):
@@ -19,7 +19,7 @@ class CaptioningPipeline:
 
     def _prepare_dataloader(self, df: pd.DataFrame):
         print("🛠️ Preparing dataset and dataloader...")
-        dataset = ImageDataset(df, self.config.IMAGE_BASE_DIR, self.processor, validate=False)
+        dataset = ImageDataset(df, self.config.IMAGE_BASE_DIR, self.processor)
         dataloader = create_image_dataloader(dataset)
         return dataloader
 

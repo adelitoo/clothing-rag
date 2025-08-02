@@ -145,7 +145,6 @@ out/
 
 ## Visual Studio
 .vs/
-.DS_Store
 
 # Logs and databases
 *.log
@@ -154,11 +153,13 @@ out/
 # Data - Kaggle dataset
 data/*
 !data/embeddings.npz
-!data/complete_articles
 
 # Milvus
 milvus/*
-!milvus/insert_to_milvus.py
-!mivlus/standalone_embed.sh
-milvus/__pycache__/
-milvus/volumes/
+!milvus/standalone_embed.sh
+!milvus/vector_db_client.py
+
+# Redis
+dump.rdb
+
+.DS_Store

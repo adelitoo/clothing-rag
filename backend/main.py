@@ -1,5 +1,3 @@
-import numpy as np
-import pandas as pd
 import config
 import traceback
 from pathlib import Path
@@ -9,14 +7,14 @@ from fastapi.staticfiles import StaticFiles
 
 from models.pipeline_options import PipelineOptions
 from models.search_request import SearchRequest
-from preprocessing.cleanup_dataset import clean_csv
-from captioning.captioning_pipeline import CaptioningPipeline
-from embeddings.embedding_pipeline import EmbeddingPipeline
+from pipeline.steps import CleanupStep, CaptioningStep, EmbeddingStep, DbInsertionStep
 from embeddings.embedding_utils import embed_text_query
 from llm.query_enhancer import LLMQueryEnhancer
 from milvus.vector_db_client import VectorDBClient
 from utils.model_utils import load_clip_model_and_processor
-from utils.file_utils import get_image_path
+from redis_client.redis_db_client import RedisDBClient
+from services.search_service import SearchService
+from utils.response_utils import enrich_search_results
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -29,11 +27,21 @@ async def lifespan(app: FastAPI):
         prompt_dir = Path(__file__).parent / "prompts"
         app.state.llm_enhancer = LLMQueryEnhancer(model=config.LLM_JUDGE_MODEL, prompt_dir=prompt_dir)
 
+        app.state.redis_client = RedisDBClient(host=config.REDIS_HOST, port=config.REDIS_PORT)
+
         model, processor = load_clip_model_and_processor()
         app.state.clip_model = model
         app.state.clip_processor = processor
         
-        print("✅ Models, DB client, and LLM enhancer are loaded and ready.")
+        app.state.search_service = SearchService(
+            redis_client=app.state.redis_client,
+            db_client=app.state.db_client,
+            llm_enhancer=app.state.llm_enhancer,
+            model=app.state.clip_model,
+            processor=app.state.clip_processor
+        )
+        
+        print("✅ Models, DB clients, and LLM enhancer are loaded and ready.")
     except Exception as e:
         print(f"❌ Startup failed: {e}")
         traceback.print_exc()
@@ -43,103 +51,80 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.mount("/images", StaticFiles(directory=config.IMAGE_BASE_DIR), name="images")
 
-def _enrich_search_results(hits: list[dict], request: Request) -> list[dict]:
-    base_url = str(request.base_url).rstrip('/')
-    for item in hits:
-        path_obj = get_image_path(item["article_id"])
-        if path_obj:
-            relative_path = path_obj.relative_to(config.IMAGE_BASE_DIR)
-            item["image_url"] = f"{base_url}/images/{relative_path.as_posix()}"
-        else:
-            item["image_url"] = None
-    return hits
-
-def _perform_search(query_text: str, top_k: int, request: Request) -> list[dict]:
-    db_client: VectorDBClient = request.app.state.db_client
-    model = request.app.state.clip_model
-    processor = request.app.state.clip_processor
-    query_embedding = embed_text_query(model, processor, query_text)
-    hits = db_client.search(query_embedding, top_k=top_k)
-    return _enrich_search_results(hits, request)
-
 @app.get("/")
 def root(): return {"status": "Backend running"}
 
+
 @app.post("/pipeline/")
 def run_configurable_pipeline(options: PipelineOptions, request: Request):
-    results = {}
     print(f"Received pipeline request with options: {options.model_dump_json(indent=2)}")
-
+    
     try:
-        if options.run_cleanup:
-            print("🚀 [1/4] Starting Dataset Cleanup...")
-            _, count = clean_csv()
-            results["cleanup"] = {"status": "OK", "articles_kept": count}
-            print("✅ Cleanup complete.")
+        db_client: VectorDBClient = request.app.state.db_client
+    except AttributeError:
+        raise HTTPException(status_code=503, detail="Database client not available.")
 
-        if options.run_captioning:
-            print("🚀 [2/4] Starting Image Captioning...")
-            caption_pipeline = CaptioningPipeline(config)
-            caption_results = caption_pipeline.run()
-            results["captioning"] = {"status": "OK", **caption_results}
-            print("✅ Captioning complete.")
-            
-        if options.run_embeddings:
-            print("🚀 [3/4] Starting Text Embedding Generation...")
-            embedding_pipeline = EmbeddingPipeline(config)
-            embedding_results = embedding_pipeline.run()
-            results["embeddings"] = {"status": "OK", **embedding_results}
-            print("✅ Embedding generation complete.")
+    step_map = {
+        "run_cleanup": ("cleanup", CleanupStep()),
+        "run_captioning": ("captioning", CaptioningStep()),
+        "run_embeddings": ("embeddings", EmbeddingStep()),
+        "run_db_insertion": ("db_insertion", DbInsertionStep(db_client=db_client)),
+    }
 
-        if options.run_db_insertion:
-            print("🚀 [4/4] Starting DB Insertion...")
-            db_client: VectorDBClient = request.app.state.db_client
-            
-            data = np.load(config.EMBEDDING_SAVE_PATH, allow_pickle=False)
-            embeddings, indices = data["embeddings"], data["indices"]
-            
-            df = pd.read_csv(config.COMPLETE_ARTICLES_CSV_PATH)
-            if len(df) != len(indices):
-                 print(f"⚠️ Warning: Mismatch between CSV rows ({len(df)}) and embedding indices ({len(indices)}). Using indices to slice.")
-                 df = df.iloc[indices]
+    pipeline_to_run = [
+        (result_key, step)
+        for option, (result_key, step) in step_map.items()
+        if getattr(options, option)
+    ]
 
-            article_ids = df["article_id"].tolist()
-            
-            db_client.set_collection("articles", dim=embeddings.shape[1], recreate=True)
-            db_client.insert(article_ids, embeddings)
-            db_client.create_index()
-            results["db_insertion"] = {"status": "OK", "vectors_inserted": len(article_ids)}
-            print("✅ DB Insertion complete.")
+    if not pipeline_to_run:
+        return {"message": "No pipeline steps were selected to run."}
 
+    results = {}
+    try:
+        for result_key, step in pipeline_to_run:
+            step_result = step.run()
+            results[result_key] = step_result
+            
     except Exception as e:
         traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"A pipeline step failed: {e}")
-        
-    return {"status": "Pipeline run finished", "details": results}
+        raise HTTPException(status_code=500, detail=f"A pipeline step failed: {str(e)}")
+
+    return results
+
+
 
 @app.post("/search/")
 def search_items(request: SearchRequest, http_request: Request):
     if not request.query or not request.query.strip():
         raise HTTPException(status_code=400, detail="Search query cannot be empty.")
-    llm_enhancer: LLMQueryEnhancer = http_request.app.state.llm_enhancer
-    transformed_query = llm_enhancer.transform(request.query)
-    if not transformed_query:
-        transformed_query = request.query
-    summary = llm_enhancer.summarize(transformed_query)
-    results = _perform_search(transformed_query, request.top_k, http_request)
+        
+    search_service: SearchService = http_request.app.state.search_service
+    
+    search_data = search_service.search(request.query, request.top_k)
+    
+    final_results = enrich_search_results(search_data["milvus_results"], http_request)
+
     return {
         "original_query": request.query,
-        "transformed_query": transformed_query,
-        "summary": summary,
-        "results": results
+        "transformed_query": search_data["transformed_query"],
+        "summary": search_data["summary"],
+        "results": final_results,
+        "source": search_data.get("source", "live") 
     }
 
 @app.post("/search/baseline/")
 def search_items_baseline(request: SearchRequest, http_request: Request):
     if not request.query or not request.query.strip():
         raise HTTPException(status_code=400, detail="Search query cannot be empty.")
-    results = _perform_search(request.query, request.top_k, http_request)
+
+    search_service: SearchService = http_request.app.state.search_service
+    
+    search_data = search_service.search_baseline(request.query, request.top_k)
+    
+    final_results = enrich_search_results(search_data["milvus_results"], http_request)
+    
     return {
         "original_query": request.query,
-        "results": results,
+        "results": final_results,
     }

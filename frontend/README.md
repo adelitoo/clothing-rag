@@ -45,7 +45,7 @@ pip install -r requirements.txt
 Run the following command from the **root folder** to populate Milvus with embeddings:
 
 ```bash
-python send_request.py --mode pipeline
+python send_request.py --mode pipeline --insert-db
 ```
 
 ---

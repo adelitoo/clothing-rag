@@ -1,101 +1,123 @@
 # 🧵 Fashion Search Backend
 
-This is a FastAPI-based backend for fashion-related image and text search using CLIP embeddings, Milvus vector database, and query rewriting via Ollama's LLM.
+This project provides a powerful, multi-modal fashion search API. It leverages CLIP embeddings for understanding image and text content, a Milvus vector database for high-speed similarity search, Redis for caching, and a local LLM (via Ollama) to enhance user queries for more intuitive results.
 
----
+## ✨ Features
 
-## 🚀 Getting Started
+- **Vector Search**: Finds fashion items based on descriptive text queries (e.g., "blue jeans for men")
+- **LLM Query Enhancement**: Automatically rewrites simple queries into detailed descriptions to improve search relevance
+- **High Performance**: Uses Milvus for fast vector indexing and Redis for caching frequent search results
+- **Modern API**: Built with FastAPI, providing interactive documentation via Swagger UI
 
-You have **two ways** to run the backend:
+## 🛠️ Installation
 
-### ✅ Recommended: Use the `start_backend.sh` Bash Script
+Follow these steps to set up the project on a macOS or Linux machine.
 
-From the project root:
+### 1. Set Up the Python Environment
 
-1. **Give execution permissions once**:
-   ```bash
-   chmod +x scripts/start_backend.sh
-   ```
-
-2. **First time only** – run with `source` to activate the `.venv`:
-   ```bash
-   source scripts/start_backend.sh
-   ```
-
-3. **After that**, just use:
-   ```bash
-   .scripts/start_backend.sh
-   ```
-
-> This script automates: **dependencies**, **starting Milvus**, **activating the Python environment**, and **launching the FastAPI backend**.  
-> You still need to manually download the Ollama LLM model during first-time setup.
-
----
-
-## 🧠 Step-by-Step Manual Setup
-
-### 1. ✅ Setup Ollama with the LLM
-
-Download and install Ollama from: [https://ollama.com](https://ollama.com)
-
-Start the Ollama server (if not started automatically):
-```bash
-ollama serve
-```
-
-Pull the required model:
-```bash
-ollama pull llama3.1:8b
-```
-
----
-
-### 2. 🧱 Start Milvus Vector Database
-
-From the project root:
+It's highly recommended to use a stable version of Python, like 3.11. Tools like `pyenv` can help manage Python versions.
 
 ```bash
-bash milvus/standalone_embed.sh start
+# Navigate to the project directory
+cd /path/to/your/project
+
+# Create a virtual environment using Python 3.11
+python3.11 -m venv .venv
+
+# Activate the environment
+source .venv/bin/activate
 ```
 
-This will spin up the Milvus container for vector similarity search.
+### 2. Install Dependencies
 
----
+Install all the required Python packages using pip.
 
-### 3. 🐍 Set up the Python Environment
-
-#### Create and activate a virtual environment:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate  # Linux/macOS
-```
-
-#### Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### 3. Set Up the LLM (Ollama)
 
-### 4. 🖥️ Start the FastAPI Server
+This project uses a local LLM for query enhancement.
 
-Back in the project root:
+```bash
+# Install Ollama by following instructions at https://ollama.com
 
+# Pull the required model
+ollama pull llama3.1:8b
+```
+
+## 🚀 Usage
+
+A single script handles starting all the necessary services (Redis, Milvus, and the FastAPI server).
+
+1. **Make the script executable** (only needs to be done once):
+
+```bash
+chmod +x scripts/start_backend.sh
+```
+
+2. **Run the script**:
+
+```bash
+./scripts/start_backend.sh
+```
+
+This script will:
+- Activate the Python virtual environment
+- Start the Redis and Milvus Docker containers
+- Launch the FastAPI application
+
+Your backend is now running and available at `http://0.0.0.0:8000`.
+
+## 📡 API Endpoints
+
+Once the server is running, you can access the interactive API documentation:
+
+- **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+The primary search endpoint is:
+- **POST /search/**: Submits a search query and returns the most relevant fashion items
+
+## 💻 Technology Stack
+
+- **Backend Framework**: FastAPI
+- **Vector Database**: Milvus
+- **Caching**: Redis (via Redis Stack for RedisJSON)
+- **LLM Provider**: Ollama
+- **Containerization**: Docker
+- **Embedding Models**: CLIP (for fashion embeddings)
+
+## 🔧 Manual Setup (Alternative)
+
+If you prefer to set up services manually instead of using the automated script:
+
+### Start Redis
+```bash
+docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+```
+
+### Start Milvus
+```bash
+bash milvus/standalone_embed.sh start
+```
+
+### Start Ollama Server
+```bash
+ollama serve
+```
+
+### Start FastAPI Server
 ```bash
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Open your browser:
-- API Root: `http://localhost:8000`
-- Swagger Docs: `http://localhost:8000/docs`
+## 📝 Notes
+
+- Ensure Docker is installed and running on your system
+- The first run may take longer as Docker images are downloaded
+- Redis caching significantly improves response times for repeated queries
+- The LLM query enhancement can be toggled on/off via API parameters
 
 ---
 
-## ✅ Summary
-
-- **Ollama** transforms fashion queries using a local LLM.
-- **Milvus** stores and searches CLIP text/image embeddings.
-- **FastAPI** provides the search endpoint.
-- You can run everything manually or just use the provided script.
-
----
