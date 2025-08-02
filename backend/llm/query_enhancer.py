@@ -23,7 +23,7 @@ class LLMQueryEnhancer:
             print(f"LLM call failed: {e}")
             return "" 
 
-    @lru_cache(maxsize=500)
+    @lru_cache(maxsize=256)
     def transform(self, user_query: str) -> str:
         if not user_query:
             return ""
@@ -34,6 +34,7 @@ class LLMQueryEnhancer:
         ]
         return self._execute_chat(messages)
 
+    @lru_cache(maxsize=256)
     def summarize(self, transformed_query: str) -> str:
         if not transformed_query:
             return ""
