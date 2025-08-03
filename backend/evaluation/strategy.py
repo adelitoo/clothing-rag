@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import config
+import fashion_search.core.config as config
 from evaluation.core.api_client import SearchClient
 from evaluation.core import metrics, reporting
 
