@@ -1,3 +1,5 @@
+# services/redis_search_service.py
+
 from typing import Dict, Any
 from redis_client.redis_db_client import RedisDBClient
 from milvus.vector_db_client import VectorDBClient
@@ -23,7 +25,8 @@ class RedisSearchService:
     def search(self, query: str, top_k: int) -> Dict[str, Any]:
         cache_key = f"cache:query:{query}"
 
-        cached_data = self.redis.get_json(cache_key)
+        ## FIX: Corrected self.redis to self.redis_client to fix AttributeError.
+        cached_data = self.redis_client.get_json(cache_key)
         if cached_data:
             print(f"✅ Cache HIT for query: '{query}'")
             return {**cached_data, "source": "cache"}
@@ -48,7 +51,8 @@ class RedisSearchService:
             "summary": summary,
             "milvus_results": raw_milvus_hits,
         }
-        self.redis.set_json(cache_key, data_to_cache, ttl=3600)
+        ## FIX: Corrected self.redis to self.redis_client to fix AttributeError.
+        self.redis_client.set_json(cache_key, data_to_cache, ttl=3600)
 
         return {**data_to_cache, "source": "live"}
 

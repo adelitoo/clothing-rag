@@ -6,10 +6,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 from llama_index.core.tools import FunctionTool
-
-# ✅ This is the correct import path based on the new library structure
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.ollama import Ollama
 
@@ -31,20 +29,38 @@ def create_fashion_agent(
     """Initializes and returns a ReActAgent for fashion recommendations."""
     print("🤖 Initializing fashion agent...")
 
+    # Store all search results across multiple tool calls
+    search_results_storage = {"items": []}
+
     def search_clothing_item(category: str, description: str) -> str:
         """Searches for a single clothing item in a specific category."""
         print(
             f"\n👕 TOOL CALLED: Searching for Category='{category}', Description='{description}'"
         )
         try:
-            # Use the regular search method instead of search_baseline for richer data
+            combined_query = f"{description} {category}"
+            print(f"  -> Combined query for embedding: '{combined_query}'")
+
             results = search_service_instance.search_baseline(
-                query=description, top_k=3
+                query=combined_query, top_k=12
             )
             milvus_hits = results.get("milvus_results")
 
             if not milvus_hits:
                 return f"No items found for category '{category}' with description '{description}'."
+
+            # Store results for later use
+            for hit in milvus_hits:
+                article_id = hit.get("article_id", "Unknown")
+                score = hit.get("score", 0.0)
+                search_results_storage["items"].append(
+                    {
+                        "article_id": article_id,
+                        "score": score,
+                        "category": category,
+                        "description": description,
+                    }
+                )
 
             formatted_items = []
             for hit in milvus_hits:
@@ -55,24 +71,100 @@ def create_fashion_agent(
                 )
 
             response = (
-                f"Found {len(formatted_items)} {category} items matching '{description}':\n"
+                f"✅ FOUND {len(formatted_items)} {category} items matching '{description}':\n"
                 + "\n".join(formatted_items)
+                + f"\n\n📋 TOTAL ITEMS COLLECTED SO FAR: {len(search_results_storage['items'])}"
+                + "\n💡 NEXT: Continue searching for other clothing categories if needed for a complete outfit, "
+                + "or provide your final recommendation if you have enough items."
             )
             return response
         except Exception as e:
             print(f"❌ Error in search_clothing_item: {e}")
             return f"Error searching for {category}: {str(e)}"
 
-    clothing_tool = FunctionTool.from_defaults(
+    def get_all_collected_items() -> str:
+        """Returns all items collected from previous searches."""
+        if not search_results_storage["items"]:
+            return "No items have been collected yet. Use the search tool first."
+
+        items_by_category = {}
+        for item in search_results_storage["items"]:
+            category = item["category"]
+            if category not in items_by_category:
+                items_by_category[category] = []
+            items_by_category[category].append(item)
+
+        result = f"📦 ALL COLLECTED ITEMS ({len(search_results_storage['items'])} total):\n\n"
+        for category, items in items_by_category.items():
+            result += f"🏷️ {category.upper()}:\n"
+            for item in items:
+                result += f"  - Article ID: {item['article_id']} (Relevance: {item['score']:.2f})\n"
+            result += "\n"
+
+        return result
+
+    # Enhanced tool descriptions
+    search_tool = FunctionTool.from_defaults(
         fn=search_clothing_item,
-        name="fashion_item_search",
-        description="Use this tool to search for a specific category of clothing (e.g., 'pants', 'jeans', 'shirt', 'shoes') based on a detailed description. Always specify both category and description.",
+        name="search_clothing_item",
+        description=(
+            "Search for clothing items in a specific category. "
+            "For complex outfit requests, call this tool multiple times for different categories "
+            "(e.g., 'shirt', 'pants', 'shoes', 'jacket'). "
+            "Each call adds items to your collection."
+        ),
     )
 
-    # This works with version 0.11.23
-    agent = ReActAgent.from_tools(tools=[clothing_tool], llm=llm, verbose=True)
+    collection_tool = FunctionTool.from_defaults(
+        fn=get_all_collected_items,
+        name="get_collected_items",
+        description=(
+            "Get a summary of all clothing items collected from previous searches. "
+            "Use this before providing your final outfit recommendation."
+        ),
+    )
 
-    print("✅ Agent is ready.")
+    # Create agent with enhanced system prompt
+    system_prompt = """You are a fashion recommendation expert. Your goal is to help users find clothing items or complete outfits.
+
+FOR SIMPLE REQUESTS (single item like "black jeans"):
+- Use search_clothing_item once
+- Provide the results directly
+
+FOR COMPLEX REQUESTS (complete outfits like "elegant dinner outfit"):
+- Break down the outfit into categories (shirt, pants, shoes, etc.)
+- Use search_clothing_item for each category
+- Use get_collected_items to review all findings
+- Provide a comprehensive recommendation with ALL article IDs
+
+IMPORTANT RULES:
+1. Always include ALL Article IDs in your final answer
+2. For multi-step searches, continue until you have searched all necessary categories
+3. Don't stop after just one search if the user wants a complete outfit
+4. If you're building an outfit, search for at least 3-4 categories (top, bottom, shoes, accessories)
+
+CRITICAL FORMATTING REQUIREMENT:
+In your final answer, list each Article ID on a separate line like this:
+- Article ID: 123456789 (Relevance: 0.85)
+- Article ID: 987654321 (Relevance: 0.82)
+
+NEVER group multiple IDs together on one line. Each ID must be on its own line with this exact format.
+Your final answer should ALWAYS contain specific Article ID numbers, never just action plans."""
+
+    agent = ReActAgent.from_tools(
+        tools=[search_tool, collection_tool],
+        llm=llm,
+        verbose=True,
+        system_prompt=system_prompt,
+        max_iterations=40,  # Allow more iterations for complex queries
+    )
+
+    # Clear storage for each new conversation
+    def reset_storage():
+        search_results_storage["items"].clear()
+
+    agent._reset_storage = reset_storage
+    print("✅ Enhanced agent is ready.")
     return agent
 
 
@@ -104,11 +196,9 @@ async def lifespan(app: FastAPI):
             processor=app.state.clip_processor,
         )
 
-        # Create Ollama instance with compatible settings
         llm_for_agent = Ollama(
             model=config.LLM_JUDGE_MODEL,
             request_timeout=120.0,
-            # Disable features that might cause compatibility issues
             temperature=0.1,
         )
         app.state.fashion_agent = create_fashion_agent(
@@ -132,49 +222,67 @@ def root():
     return {"status": "Backend running"}
 
 
-@app.get("/health")
-def health_check():
-    """Health check endpoint"""
-    return {
-        "status": "healthy",
-        "services": {
-            "agent": hasattr(app.state, "fashion_agent")
-            and app.state.fashion_agent is not None
-        },
-    }
+def extract_article_ids_robust(text: str) -> List[tuple]:
+    """
+    Enhanced regex parsing that handles multiple response formats.
+    Returns list of (article_id, score) tuples.
+    """
+    found_items = []
 
+    # Pattern 1: Standard format - "Article ID: 123 (Relevance: 0.85)"
+    pattern1 = re.findall(
+        r"Article\s+ID\s*:?\s*(\d+).*?Relevance\s*:?\s*([\d\.]+)",
+        text,
+        re.IGNORECASE | re.DOTALL,
+    )
+    found_items.extend(pattern1)
 
-@app.post("/search/")
-def search(request: SearchRequest, http_request: Request):
-    if not request.query or not request.query.strip():
-        raise HTTPException(status_code=400, detail="Search query cannot be empty.")
+    # Pattern 2: Alternative format - "ID: 123, Score: 0.85"
+    pattern2 = re.findall(
+        r"ID\s*:?\s*(\d+).*?(?:Score|Relevance)\s*:?\s*([\d\.]+)",
+        text,
+        re.IGNORECASE | re.DOTALL,
+    )
+    found_items.extend(pattern2)
 
-    search_service: RedisSearchService = http_request.app.state.search_service
-    search_data = search_service.search(request.query, request.top_k)
-    final_results = enrich_search_results(search_data["milvus_results"], http_request)
+    # Pattern 3: Just article numbers with scores in parentheses
+    pattern3 = re.findall(r"(\d{6,})\s*\([^\)]*?([\d\.]+)[^\)]*?\)", text)
+    found_items.extend(pattern3)
 
-    return {
-        "original_query": request.query,
-        "transformed_query": search_data["transformed_query"],
-        "summary": search_data["summary"],
-        "results": final_results,
-        "source": search_data.get("source", "live"),
-    }
+    # Pattern 4: Article ID with any text in parentheses (like "Very relevant", "All quite relevant")
+    pattern4 = re.findall(r"Article\s+ID\s*:?\s*(\d+)\s*\([^)]+\)", text, re.IGNORECASE)
+    for article_id in pattern4:
+        found_items.append((article_id, "1.0"))  # Default score
 
+    # Pattern 5: Multiple article IDs in one line (comma-separated)
+    # Example: "Article ID: 690108004, 540395010, 690449036, 690449022"
+    pattern5 = re.findall(
+        r"Article\s+ID\s*:?\s*((?:\d+(?:\s*,\s*\d+)*)+)", text, re.IGNORECASE
+    )
+    for ids_string in pattern5:
+        # Split by comma and extract individual IDs
+        individual_ids = re.findall(r"\d+", ids_string)
+        for article_id in individual_ids:
+            found_items.append((article_id, "1.0"))  # Default score
 
-@app.post("/search/baseline/")
-def search_baseline(request: SearchRequest, http_request: Request):
-    if not request.query or not request.query.strip():
-        raise HTTPException(status_code=400, detail="Search query cannot be empty.")
+    # Pattern 6: Any sequence of 6+ digits that looks like an article ID
+    # (fallback pattern for when formatting is inconsistent)
+    pattern6 = re.findall(r"\b(\d{6,})\b", text)
+    for article_id in pattern6:
+        found_items.append((article_id, "0.8"))  # Lower default score for fallback
 
-    search_service: RedisSearchService = http_request.app.state.search_service
-    search_data = search_service.search_baseline(request.query, request.top_k)
-    final_results = enrich_search_results(search_data["milvus_results"], http_request)
+    # Remove duplicates while preserving order
+    seen = set()
+    unique_items = []
+    for item_id, score in found_items:
+        if item_id not in seen:
+            seen.add(item_id)
+            unique_items.append((item_id, score))
 
-    return {
-        "original_query": request.query,
-        "results": final_results,
-    }
+    print(f"🔍 Extracted {len(unique_items)} unique article IDs from agent response")
+    if unique_items:
+        print(f"🔍 First few IDs: {unique_items[:3]}")
+    return unique_items
 
 
 @app.post("/agent/recommend/")
@@ -182,48 +290,98 @@ def agent_recommendation(request: SearchRequest, http_request: Request):
     if not request.query or not request.query.strip():
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
 
-    # --- Step 1: Get the agent, and fail early if it's missing. ---
     try:
         fashion_agent: ReActAgent = http_request.app.state.fashion_agent
-        search_service: RedisSearchService = http_request.app.state.search_service
+        redis_client: RedisDBClient = http_request.app.state.redis_client
     except AttributeError:
-        # This now correctly reports that a required service is not available.
         raise HTTPException(
             status_code=503,
             detail="A required service is not available. Check server startup logs.",
         )
 
-    # --- Step 2: Run the main logic in a separate try block. ---
+    cache_key = f"cache:agent:{request.query.strip().lower()}"
+    cached_response = redis_client.get_json(cache_key)
+    if cached_response:
+        print(f"✅ Agent Cache HIT for query: '{request.query}'")
+        cached_response.setdefault("results", [])
+        return {**cached_response, "source": "agent_cache"}
+
+    print(f"❌ Agent Cache MISS for query: '{request.query}'")
+
     try:
+        # Reset storage for new query
+        if hasattr(fashion_agent, "_reset_storage"):
+            fashion_agent._reset_storage()
+
         agent_response = fashion_agent.chat(request.query)
         agent_summary_text = str(agent_response)
 
-        article_ids = re.findall(r"(?:Article ID|Item ID):\s*(\d+)", agent_summary_text)
+        print(f"🤖 Agent response length: {len(agent_summary_text)}")
+        print(f"🤖 Agent response preview: {agent_summary_text[:200]}...")
+
+        # Enhanced parsing
+        found_items = extract_article_ids_robust(agent_summary_text)
 
         final_results = []
-        if article_ids:
-            milvus_results = []
-            for article_id in article_ids:
-                item_data = search_service.redis_client.get_json(
-                    f"article:{article_id}"
+        if not found_items:
+            print(
+                "⚠️ No article IDs found in agent response. Checking for error patterns..."
+            )
+
+            # Check if response contains action patterns (indicating the agent got stuck)
+            if (
+                "Action:" in agent_summary_text
+                and "Action Input:" in agent_summary_text
+            ):
+                print(
+                    "🚨 DETECTED: Agent got stuck and returned an action instead of results"
                 )
+                error_msg = (
+                    "The agent planned a multi-step search but didn't complete it. "
+                    "This might be due to the complexity of the query. "
+                    "Try asking for specific items instead of complete outfits."
+                )
+                return {
+                    "summary": error_msg,
+                    "results": [],
+                    "source": "agent",
+                    "error": "agent_incomplete_execution",
+                }
+
+        # Process found items
+        if found_items:
+            results_with_details = []
+            for article_id_str, score_str in found_items:
+                item_data = redis_client.get_json(f"article:{article_id_str}")
+
                 if item_data:
-                    # Create a dictionary that mimics the structure enrich_search_results expects
-                    milvus_results.append(
-                        {"article_id": item_data["article_id"], "score": 0.99}
-                    )
+                    try:
+                        score = float(score_str)
+                    except (ValueError, TypeError):
+                        score = 0.0
 
-            final_results = enrich_search_results(milvus_results, http_request)
+                    item_data["score"] = score
+                    results_with_details.append(item_data)
+                else:
+                    print(f"⚠️ Data for article ID {article_id_str} not found in Redis.")
 
-        return {
+            final_results = enrich_search_results(results_with_details, http_request)
+
+        response_data = {
             "summary": agent_summary_text,
             "results": final_results,
-            "source": "agent",
+            "total_items_found": len(final_results),
         }
-    # --- Step 3: Catch all other errors and report them accurately. ---
+
+        # Only cache successful responses with results
+        if final_results:
+            redis_client.set_json(cache_key, response_data, ttl=3600)
+
+        return {**response_data, "source": "agent"}
+
     except Exception as e:
         print(f"Agent processing error: {e}")
         traceback.print_exc()
         raise HTTPException(
-            status_code=500, detail="Agent failed to process the query after running."
+            status_code=500, detail=f"Agent failed to process the query: {e}"
         )
