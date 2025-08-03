@@ -5,7 +5,7 @@ from llm.query_enhancer import LLMQueryEnhancer
 from embeddings.embedding_utils import embed_text_query
 
 
-class SearchService:
+class RedisSearchService:
     def __init__(
         self,
         redis_client: RedisDBClient,
@@ -14,7 +14,7 @@ class SearchService:
         model,
         processor,
     ):
-        self.redis = redis_client
+        self.redis_client = redis_client
         self.milvus = db_client
         self.llm = llm_enhancer
         self.model = model

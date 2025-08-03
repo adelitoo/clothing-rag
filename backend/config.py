@@ -23,14 +23,13 @@ ANNOTATION_FILE_OUTPUT = REPORTS_DIR / "to_annotate.csv"
 # === Models ===
 IMAGE_TEXT_MODEL = "patrickjohncyh/fashion-clip"
 IMAGE_CAPTION_MODEL = "Salesforce/blip-image-captioning-base"
-LLM_JUDGE_MODEL = "llama3.1:8b"
+LLM_JUDGE_MODEL = "qwen2.5:7b-instruct-q8_0"
 
 # === Batch Sizes & Hardware ===
 TEXT_BATCH_SIZE = 512
 IMAGE_BATCH_SIZE = 64
 
 
-# Improved device selection for Apple Silicon
 def get_optimal_device():
     if torch.cuda.is_available():
         device = torch.device("cuda")

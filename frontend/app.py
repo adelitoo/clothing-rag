@@ -54,7 +54,9 @@ st.markdown(
 if search_clicked and search_query:
     try:
         with st.spinner("Finding the best matches..."):
-            response_data = asyncio.run(client.search(query=search_query, top_k=top_k))
+            response_data = asyncio.run(
+                client.agent_recommend(query=search_query, top_k=top_k)
+            )
 
         if response_data and response_data.get("results"):
             st.success(f"**Result description:** {response_data.get('summary', 'N/A')}")
