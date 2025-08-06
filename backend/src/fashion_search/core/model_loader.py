@@ -5,7 +5,6 @@ from .config import settings
 
 @cache
 def load_clip_model_and_processor(model_name: str = settings.IMAGE_TEXT_MODEL):
-    """Loads and caches the CLIP model and processor."""
     print(f"⏳ Loading CLIP model: {model_name}...")
     model = CLIPModel.from_pretrained(model_name).to(settings.DEVICE).eval()
     processor = CLIPProcessor.from_pretrained(model_name)
@@ -14,7 +13,6 @@ def load_clip_model_and_processor(model_name: str = settings.IMAGE_TEXT_MODEL):
 
 @cache
 def load_captioning_model_and_processor(model_name: str = settings.IMAGE_CAPTION_MODEL):
-    """Loads and caches the BLIP captioning model and processor."""
     print(f"⏳ Loading Captioning model: {model_name}...")
     processor = BlipProcessor.from_pretrained(model_name)
     dtype = torch.float16 if settings.DEVICE.type == "cuda" else torch.float32

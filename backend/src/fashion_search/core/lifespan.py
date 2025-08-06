@@ -11,32 +11,18 @@ from ..redis_client.redis_db_client import RedisDBClient
 from ..services.redis_search_service import RedisSearchService
 from .model_loader import load_clip_model_and_processor
 
-
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🚀 Server starting up...")
     try:
         app.state.db_client = VectorDBClient(
             host=settings.MILVUS_HOST, port=settings.MILVUS_PORT
         )
-        app.state.db_client.set_collection("articles", dim=settings.EMB_DIM)
+
+        app.state.db_client.set_collection("articles")
 
         app.state.redis_client = RedisDBClient(
             host=settings.REDIS_HOST, port=int(settings.REDIS_PORT)
         )
-
-        print("🔬 Performing Redis sanity check from within the application...")
-        test_key = "article:959461001"
-        test_data = app.state.redis_client.get_json(test_key)
-        if test_data:
-            print(
-                f"   ✅ Sanity check PASSED. Application found data for key '{test_key}'."
-            )
-        else:
-            print(
-                f"   ❌ Sanity check FAILED. Application could NOT find data for key '{test_key}'."
-            )
 
         model, processor = load_clip_model_and_processor()
         app.state.clip_model = model
@@ -61,7 +47,6 @@ async def lifespan(app: FastAPI):
             app.state.search_service, llm_for_agent
         )
 
-        print("✅ All services are loaded and the multi-agent system is ready.")
     except Exception as e:
         print(f"❌ Startup failed: {e}")
         traceback.print_exc()

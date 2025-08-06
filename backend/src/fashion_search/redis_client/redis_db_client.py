@@ -1,5 +1,3 @@
-# src/fashion_search/redis_client/redis_db_client.py
-
 import redis
 import json
 from typing import Dict, Any, Optional

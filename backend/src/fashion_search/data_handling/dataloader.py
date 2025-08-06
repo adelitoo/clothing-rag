@@ -4,7 +4,6 @@ from ..core.config import settings
 
 
 def _collate_fn(batch):
-    """Custom collate function to handle batching of images and article IDs."""
     pixel_values, article_ids = zip(*batch)
     pixel_values = torch.stack(pixel_values)
     return pixel_values, list(article_ids)

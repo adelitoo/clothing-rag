@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, HTTPException
 from ...schemas.api_schemas import SearchRequest
 from ...services.redis_search_service import RedisSearchService
-from ..helpers.helpers import enrich_search_results
+from ..helpers import enrich_search_results
 
 router = APIRouter(prefix="/search", tags=["Standard Search"])
 
