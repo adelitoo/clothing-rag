@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException, Request
 from ...agents.orchestrator import MultiFashionAgent
 from ...redis_client.redis_db_client import RedisDBClient
 from ...schemas.api_schemas import SearchRequest
-from ...api.helpers import enrich_search_results  
+from ...api.helpers import enrich_search_results
 
 router = APIRouter(prefix="/agent", tags=["Agent Recommendations"])
 
@@ -20,42 +20,57 @@ def agent_recommendation(request: SearchRequest, http_request: Request):
     except AttributeError:
         raise HTTPException(status_code=503, detail="A required service is not available.")
 
-    cache_key = f"cache:agent:{request.query.strip().lower()}"
-    if cached_response := redis_client.get_json(cache_key):
-        print(f"✅ Agent Cache HIT for query: '{request.query}'")
+    raw_cache_key = f"cache:agent:{request.query.strip().lower()}"
+    if cached_response := redis_client.get_json(raw_cache_key):
+        print(f"✅ Agent Cache HIT for raw query: '{request.query}'")
         return {**cached_response, "source": "agent_cache"}
     
-    print(f"❌ Agent Cache MISS for query: '{request.query}'")
+    print(f"❌ Agent Cache MISS for raw query: '{request.query}'")
 
     try:
-        agent_response_dict = multi_agent.process_query(request.query)
+        agent_output = multi_agent.process_query(request)
+        
+        agent_response_dict = agent_output.get("response_payload", {})
+        refined_query = agent_output.get("refined_query")
+
+        if refined_query:
+            refined_cache_key = f"cache:agent:{refined_query.strip().lower()}"
+            if cached_response := redis_client.get_json(refined_cache_key):
+                print(f"✅ Agent Cache HIT for refined query: '{refined_query}'")
+                enriched_cached_articles = {}
+                for category, articles in cached_response.get("categorized_articles", {}).items():
+                    enriched_cached_articles[category] = enrich_search_results(articles, http_request)
+                
+                cached_response["categorized_articles"] = enriched_cached_articles
+                return {**cached_response, "source": "agent_cache_refined"}
 
         summary_text = agent_response_dict.get("summary_text", "No summary available.")
-        recommended_articles = agent_response_dict.get("recommended_articles", [])
-
-        final_results = []
-        if recommended_articles:
-            results_with_details = []
-            for article in recommended_articles:
+        categorized_articles = agent_response_dict.get("categorized_articles", {})
+        
+        enriched_categorized_articles = {}
+        for category, articles in categorized_articles.items():
+            enriched_list_for_category = []
+            if not articles: continue
+            for article in articles:
                 article_id = str(article.get("article_id")).zfill(10)
                 score = article.get("relevance_score", 0.0)
-                
                 if item_data := redis_client.get_json(f"article:{article_id}"):
-                    item_data["score"] = score
-                    results_with_details.append(item_data)
+                    item_data["relevance_score"] = score
+                    enriched_list_for_category.append(item_data)
                 else:
                     print(f"⚠️ Data for article ID {article_id} not found in Redis.")
-
-            final_results = enrich_search_results(results_with_details, http_request)
+            if enriched_list_for_category:
+                enriched_categorized_articles[category] = enrich_search_results(enriched_list_for_category, http_request)
 
         response_data = {
-            "summary": summary_text,
-            "results": final_results,
-            "total_items_found": len(final_results),
+            "summary_text": summary_text,
+            "categorized_articles": enriched_categorized_articles,
         }
 
-        if final_results:
-            redis_client.set_json(cache_key, response_data, ttl=3600)
+        if enriched_categorized_articles and refined_query:
+            final_cache_key = f"cache:agent:{refined_query.strip().lower()}"
+            redis_client.set_json(final_cache_key, response_data, ttl=3600)
+            print(f"✅ Cached result using refined key: '{refined_query}'")
         
         print("--- DEBUG: FINAL LIVE PAYLOAD ---")
         print(json.dumps(response_data, indent=2))

@@ -20,5 +20,11 @@ class RecommendedArticle(BaseModel):
     relevance_score: float
 
 class FormattedResponse(BaseModel):
-    summary_text: str = Field(description="A friendly, user-facing summary formatted with markdown lists.")
-    recommended_articles: List[RecommendedArticle]
+    summary_text: str = Field(
+        ...,
+        description="A friendly, user-facing summary formatted with markdown lists."
+    )
+    categorized_articles: Dict[str, List[RecommendedArticle]] = Field(
+        ...,
+        description="A dictionary where keys are category names (e.g., 'jacket', 'pants') and values are lists of recommended articles."
+    )

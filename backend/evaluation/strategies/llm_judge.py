@@ -4,6 +4,7 @@ import logging
 import json
 import ollama
 from evaluation.strategy import EvaluationStrategy
+from ...src.fashion_search.core.config import settings
 
 class LlmJudgeStrategy(EvaluationStrategy):
     def _load_prompt(self, prompt_path: str) -> str:
@@ -27,7 +28,7 @@ class LlmJudgeStrategy(EvaluationStrategy):
     def _get_judgment(self, prompt: str, query: str) -> dict:
         try:
             response = ollama.chat(
-                model=self.config.LLM_JUDGE_MODEL,
+                model=settings.LLM_JUDGE_MODEL,
                 messages=[{"role": "user", "content": prompt}],
                 options={"temperature": 0.0},
                 format="json"
@@ -40,20 +41,20 @@ class LlmJudgeStrategy(EvaluationStrategy):
     def execute(self):
         logging.info("🚀 EXECUTING STRATEGY: LLM-as-a-Judge A/B Evaluation...")
 
-        prompt_template = self._load_prompt(self.config.PROMPTS_DIR / "llm_judge_prompt.txt")
-        articles_df = pd.read_csv(self.config.COMPLETE_ARTICLES_CSV_PATH)
-        with open(self.config.QUERIES_FILE_PATH, 'r') as f:
+        prompt_template = self._load_prompt(settings.PROMPTS_DIR / "llm_judge_prompt.txt")
+        articles_df = pd.read_csv(settings.COMPLETE_ARTICLES_CSV_PATH)
+        with open(settings.QUERIES_FILE_PATH, 'r') as f:
             queries = [line.strip() for line in f if line.strip()]
 
         SYSTEM_A_ID = "vector_search"
         SYSTEM_B_ID = "baseline"
-        system_a_name = self.config.SYSTEMS_TO_EVALUATE[SYSTEM_A_ID]['name']
-        system_b_name = self.config.SYSTEMS_TO_EVALUATE[SYSTEM_B_ID]['name']
+        system_a_name = settings.SYSTEMS_TO_EVALUATE[SYSTEM_A_ID]['name']
+        system_b_name = settings.SYSTEMS_TO_EVALUATE[SYSTEM_B_ID]['name']
 
         summary = []
         for query in tqdm(queries, desc="A/B Evaluating Queries"):
-            results_a = self.client.get_search_results(SYSTEM_A_ID, query, self.config.EVALUATION_K)
-            results_b = self.client.get_search_results(SYSTEM_B_ID, query, self.config.EVALUATION_K)
+            results_a = self.client.get_search_results(SYSTEM_A_ID, query, settings.EVALUATION_K)
+            results_b = self.client.get_search_results(SYSTEM_B_ID, query, settings.EVALUATION_K)
 
             formatted_a = self._format_results(results_a, articles_df)
             formatted_b = self._format_results(results_b, articles_df)
@@ -69,5 +70,5 @@ class LlmJudgeStrategy(EvaluationStrategy):
         preferences = eval_df['llm_preference'].value_counts(normalize=True).reindex(['A', 'B', 'Tie']).fillna(0) * 100
         print("\n" + preferences.to_string(float_format="%.1f%%"))
 
-        self.reporting.save_dataframe_to_csv(eval_df, "llm_judge_detailed_report.csv", self.config.REPORTS_DIR)
+        self.reporting.save_dataframe_to_csv(eval_df, "llm_judge_detailed_report.csv", settings.REPORTS_DIR)
         self._plot_summary(eval_df)

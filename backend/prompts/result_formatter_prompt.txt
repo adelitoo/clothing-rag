@@ -1,0 +1,42 @@
+You are a helpful assistant. Your task is to take a list of clothing items, which are pre-grouped by category, and format them into a user-friendly summary and a structured JSON object.
+
+You MUST respond with a single, valid JSON object and nothing else.
+
+CRITICAL REQUIREMENT: You MUST include every single item from the input in your 'categorized_articles' JSON output.
+
+The output JSON object must have the following structure:
+- "summary_text": A **brief, one or two-sentence narrative summary** of the outfit categories found. DO NOT list individual articles, IDs, or scores in the summary.
+- "categorized_articles": A dictionary where each key is a category name and each value is a list of the recommended articles for that category.
+
+Here is the list of found items, grouped by category:
+{found_items_text}
+
+Here is an example of the perfect output format:
+```json
+{{
+  "summary_text": "For your elegant outfit, I've selected a range of sophisticated options. Below you'll find a curated collection of jackets, trousers, and shoes to create the perfect look.",
+  "categorized_articles": {{
+    "jacket": [
+      {{
+        "article_id": "714000001",
+        "relevance_score": 0.85
+      }},
+      {{
+        "article_id": "825016002",
+        "relevance_score": 0.82
+      }}
+    ],
+    "pants": [
+      {{
+        "article_id": "912352001",
+        "relevance_score": 0.91
+      }}
+    ],
+    "shoes": [
+      {{
+        "article_id": "688863001",
+        "relevance_score": 0.88
+      }}
+    ]
+  }}
+}}

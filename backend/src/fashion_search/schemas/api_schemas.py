@@ -1,9 +1,10 @@
 from pydantic import BaseModel, Field
+from typing import Optional 
 
 class SearchRequest(BaseModel):
     query: str
     top_k: int = 20
-
+    session_id: Optional[str] = None 
 
 class PipelineOptions(BaseModel):
     run_cleanup: bool = Field(

@@ -7,13 +7,6 @@ from ..core.model_loader import load_captioning_model_and_processor
 from ..data_handling.dataset import ImageDataset
 from ..data_handling.dataloader import create_image_dataloader
 
-GENERATION_CONFIG = {
-    "max_length": 50,
-    "num_beams": 4,
-    "repetition_penalty": 1.5,
-    "early_stopping": True,
-}
-
 class CaptioningPipeline:
     def __init__(self):
         self.device = settings.DEVICE
@@ -30,7 +23,7 @@ class CaptioningPipeline:
             try:
                 with torch.no_grad():
                     generated_ids = self.model.generate(
-                        pixel_values=pixel_values, **GENERATION_CONFIG
+                        pixel_values=pixel_values, **settings.GENERATION_CONFIG
                     )
                 
                 captions = self.processor.batch_decode(generated_ids, skip_special_tokens=True)

@@ -5,9 +5,7 @@ from typing import Dict, Any, Optional
 class ApiClient:
     def __init__(self, base_url: str):
         self.base_url = base_url
-        self.client = httpx.AsyncClient(
-            base_url=self.base_url, timeout=600.0
-        )  # Increased timeout for agent
+        self.client = httpx.AsyncClient(base_url=self.base_url, timeout=600.0)
 
     async def run_pipeline(self, options: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         try:
@@ -44,11 +42,11 @@ class ApiClient:
             return None
 
     async def agent_recommend(
-        self, query: str, top_k: int = 12
+        self, query: str, top_k: int = 12, session_id: Optional[str] = None
     ) -> Optional[Dict[str, Any]]:
         """Sends a query to the agent AI for an outfit recommendation."""
-        payload = {"query": query, "top_k": top_k}
-        print(f"🤖 Sending query to agent endpoint: '{query}'")
+        payload = {"query": query, "top_k": top_k, "session_id": session_id}
+        print(f"🤖 Sending query to agent: {payload}")
         try:
             response = await self.client.post("/agent/recommend/", json=payload)
             response.raise_for_status()
@@ -62,8 +60,6 @@ class ApiClient:
             )
             print(f"Details: {e.response.text}")
             return None
-
-    # --- END NEW METHOD ---
 
     async def close(self):
         await self.client.aclose()

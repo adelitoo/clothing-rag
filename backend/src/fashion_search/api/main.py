@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 
 from ..core.lifespan import lifespan
 from ..core.config import settings
-from .routers import recommendation, pipeline, search 
+from .routers import recommendation, pipeline, search
 
 app = FastAPI(
     title="Fashion Search API",

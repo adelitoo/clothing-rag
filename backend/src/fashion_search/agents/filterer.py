@@ -8,7 +8,6 @@ class FilterAgent:
         try:
             prompt_path = settings.PROMPTS_DIR / "filter_extractor_prompt.txt"
             self.prompt_template = prompt_path.read_text()
-            print("✅ Filter extractor prompt loaded successfully.")
         except FileNotFoundError:
             print(f"❌ FATAL: Filter extractor prompt not found at {prompt_path}")
             raise
@@ -27,4 +26,4 @@ class FilterAgent:
             return {}
         except Exception as e:
             print(f"⚠️ Filter extraction failed: {e}")
-            return {} # Return empty filters on failure
+            return {} 

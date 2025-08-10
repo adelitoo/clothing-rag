@@ -1,37 +1,26 @@
 from pymilvus import (
     connections,
-    FieldSchema,
     CollectionSchema,
-    DataType,
     Collection,
     utility,
 )
 from yaspin import yaspin
 import pandas as pd
 import numpy as np
+from ..core.config import settings
 
 class VectorDBClient:
-
-    SCHEMA_FIELDS = [
-        FieldSchema(name="article_id", dtype=DataType.VARCHAR, max_length=16, is_primary=True),
-        FieldSchema(name="index_name", dtype=DataType.VARCHAR, max_length=64),
-        FieldSchema(name="product_type_name", dtype=DataType.VARCHAR, max_length=64),
-        FieldSchema(name="colour_group_name", dtype=DataType.VARCHAR, max_length=64),
-        FieldSchema(name="graphical_appearance_name", dtype=DataType.VARCHAR, max_length=64),
-        FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=512), 
-    ]
 
     def __init__(self, host: str, port: str | int):
         self.host = host
         self.port = port
         self.collection = None
-        self.field_names = [field.name for field in self.SCHEMA_FIELDS]
-        self.scalar_field_names = [field.name for field in self.SCHEMA_FIELDS if field.name != "embedding"]
+        self.field_names = [field.name for field in settings.SCHEMA_FIELDS]
+        self.scalar_field_names = [field.name for field in settings.SCHEMA_FIELDS if field.name != "embedding"]
         self._connect()
 
     def _connect(self):
         try:
-            print(f"🔌 Connecting to Milvus at {self.host}:{self.port}")
             connections.connect("default", host=self.host, port=self.port)
         except Exception as e:
             print(f"❌ Milvus connection failed: {e}")
@@ -44,10 +33,9 @@ class VectorDBClient:
         if not utility.has_collection(name):
             self._create_collection_schema(name)
         self.collection = Collection(name)
-        print(f"✅ Collection '{name}' is ready.")
 
     def _create_collection_schema(self, name: str):
-        schema = CollectionSchema(self.SCHEMA_FIELDS, description="Fashion articles with hybrid search metadata")
+        schema = CollectionSchema(settings.SCHEMA_FIELDS, description="Fashion articles with hybrid search metadata")
         self.collection = Collection(name, schema)
         print(f"  - Created collection '{name}' from the central schema definition.")
 

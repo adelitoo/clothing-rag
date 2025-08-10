@@ -1,4 +1,6 @@
+import json
 import os
+from pymilvus import DataType, FieldSchema
 import torch
 from pathlib import Path
 from dotenv import load_dotenv
@@ -41,6 +43,32 @@ class Settings:
 
         self.EVALUATION_K = 10
         self.RELEVANCE_THRESHOLD = 2
+        
+        self.CONVERSATION_TTL = 1800
+
+        self.CATEGORY_MAP_KEY = "app:category_map"
+        self.CATEGORY_MAPPINGS = {
+            "shirt": ["Shirt", "Blouse", "Top", "Polo shirt", "T-shirt", "Vest top"],
+            "pants": ["Trousers", "Shorts", "Leggings/Tights", "Outdoor trousers", "Pyjama bottom"],
+            "jacket": ["Jacket", "Blazer", "Coat", "Cardigan", "Hoodie", "Sweater", "Outdoor Waistcoat", "Robe"],
+            "shoes": [
+                "Boots", "Sneakers", "Pumps", "Heels", "Sandals", "Ballerinas", "Flat shoes", 
+                "Moccasins", "Slippers", "Heeled sandals", "Wedge", "Bootie"
+            ],
+            "tie": ["Tie"],
+            "belt": ["Belt"],
+            "dress": ["Dress", "Jumpsuit/Playsuit", "Dungarees", "Underdress", "Robe"],
+            "handbag": ["Bag", "Backpack", "Bumbag", "Cross-body bag", "Shoulder bag", "Tote bag", "Wallet"],
+            "jewelry": ["Earring", "Earrings", "Necklace", "Ring", "Bracelet", "Accessories set"],
+            "accessories": ["Scarf", "Gloves", "Hat/beanie", "Cap", "Sunglasses", "Watch"],
+            "swimwear": ["Swimsuit", "Swimwear bottom", "Swimwear top", "Bikini top"],
+        }
+
+        self.CATEGORY_DATA_AS_JSON_STRINGS = {
+            key: json.dumps(value) for key, value in self.CATEGORY_MAPPINGS.items()
+        }
+
+
         self.SYSTEMS_TO_EVALUATE = {
             "vector_search": {
                 "name": "Vector Search (LLM)",
@@ -53,6 +81,23 @@ class Settings:
                 "color": "#4CAF50",
             },
         }
+
+        self.GENERATION_CONFIG = {
+            "max_length": 50,
+            "num_beams": 4,
+            "repetition_penalty": 1.5,
+            "early_stopping": True,
+        }
+
+        self.SCHEMA_FIELDS = [
+            FieldSchema(name="article_id", dtype=DataType.VARCHAR, max_length=16, is_primary=True),
+            FieldSchema(name="index_name", dtype=DataType.VARCHAR, max_length=64),
+            FieldSchema(name="product_type_name", dtype=DataType.VARCHAR, max_length=64),
+            FieldSchema(name="colour_group_name", dtype=DataType.VARCHAR, max_length=64),
+            FieldSchema(name="graphical_appearance_name", dtype=DataType.VARCHAR, max_length=64),
+            FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=512), 
+        ]
+
 
     def _setup_device_settings(self):
         if torch.cuda.is_available():

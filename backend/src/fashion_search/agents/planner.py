@@ -9,7 +9,6 @@ class OutfitPlanner:
         try:
             prompt_path = settings.PROMPTS_DIR / "outfit_planner_prompt.txt"
             self.planning_prompt_template = prompt_path.read_text()
-            print("✅ Outfit planner prompt loaded successfully.")
         except FileNotFoundError:
             print(f"❌ FATAL: Outfit planner prompt not found at {prompt_path}")
             raise

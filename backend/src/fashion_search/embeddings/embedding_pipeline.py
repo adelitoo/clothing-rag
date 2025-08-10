@@ -68,7 +68,6 @@ class EmbeddingPipeline:
             embeddings=embeddings,
             article_ids=article_ids_array
         )
-        # ----------------------
 
         print(f"   - Saved {len(embeddings)} embeddings and {len(article_ids_array)} article IDs.")
 

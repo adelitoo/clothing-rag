@@ -3,6 +3,7 @@ import numpy as np
 from tqdm import tqdm
 import logging
 from evaluation.strategy import EvaluationStrategy
+from ...src.fashion_search.core.config import settings
 
 class CosineSimilarityStrategy(EvaluationStrategy):
     def _get_average_similarity(self, results: list) -> float:
@@ -11,13 +12,13 @@ class CosineSimilarityStrategy(EvaluationStrategy):
 
     def execute(self):
         logging.info("🚀 EXECUTING STRATEGY: Average Cosine Similarity...")
-        with open(self.config.QUERIES_FILE_PATH, 'r') as f:
+        with open(settings.QUERIES_FILE_PATH, 'r') as f:
             queries = [line.strip() for line in f if line.strip()]
 
         results_data = []
         for query in tqdm(queries, desc="Evaluating Queries"):
-            for system_id, system_info in self.config.SYSTEMS_TO_EVALUATE.items():
-                results = self.client.get_search_results(system_id, query, self.config.EVALUATION_K)
+            for system_id, system_info in settings.SYSTEMS_TO_EVALUATE.items():
+                results = self.client.get_search_results(system_id, query, settings.EVALUATION_K)
                 avg_score = self._get_average_similarity(results)
                 results_data.append({'model': system_info['name'], 'score': avg_score})
 
@@ -27,7 +28,7 @@ class CosineSimilarityStrategy(EvaluationStrategy):
             logging.info(f"📈 {name:<20} | Overall Avg. Similarity: {overall_avg:.4f}")
 
         self.reporting.plot_score_distribution(
-            results_df, self.config.SYSTEMS_TO_EVALUATE,
-            f'Cosine Similarity Distributions (Top {self.config.EVALUATION_K})',
-            'cosine_similarity_distribution.png', self.config.REPORTS_DIR
+            results_df, settings.SYSTEMS_TO_EVALUATE,
+            f'Cosine Similarity Distributions (Top {settings.EVALUATION_K})',
+            'cosine_similarity_distribution.png', settings.REPORTS_DIR
         )

@@ -8,7 +8,6 @@ class RedisDBClient:
         try:
             self.client = redis.Redis(host=host, port=port, decode_responses=True)
             self.client.ping()
-            print("✅ Successfully connected to Redis.")
         except redis.exceptions.ConnectionError as e:
             print(f"❌ Could not connect to Redis: {e}")
             self.client = None
@@ -47,3 +46,23 @@ class RedisDBClient:
             print(f"Error setting data in Redis for key '{key}': {e}")
         except TypeError:
             print(f"Error: Data for key '{key}' is not JSON serializable.")
+            
+
+    def set_hash(self, key: str, data: Dict[str, str]):
+        if not self.client:
+            return
+        try:
+            self.client.hset(key, mapping=data)
+            print(f"✅ Successfully set hash for key '{key}' with {len(data)} fields.")
+        except redis.exceptions.RedisError as e:
+            print(f"Error setting hash in Redis for key '{key}': {e}")
+
+    def get_hash(self, key: str) -> Dict[str, str]:
+        if not self.client:
+            return {}
+        try:
+            return self.client.hgetall(key)
+        except redis.exceptions.RedisError as e:
+            print(f"Error getting hash from Redis for key '{key}': {e}")
+            return {}
+
